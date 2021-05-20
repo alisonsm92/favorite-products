@@ -1,0 +1,19 @@
+{
+  "name": "favorite-products",
+  "version": "1.0.0",
+  "description": "Customer favorite product service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alisonsm92/favorite-products.git"
+  },
+  "author": "alisonsm92",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alisonsm92/favorite-products/issues"
+  },
+  "homepage": "https://github.com/alisonsm92/favorite-products#readme"
+}
