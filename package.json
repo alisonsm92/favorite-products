@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/alisonsm92/favorite-products/issues"
   },
-  "homepage": "https://github.com/alisonsm92/favorite-products#readme"
+  "homepage": "https://github.com/alisonsm92/favorite-products#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.2",
+    "typescript": "^4.2.4"
+  }
 }
