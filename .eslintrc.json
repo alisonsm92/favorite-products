@@ -1,10 +1,12 @@
 {
 	"env": {
+		"jest": true,
 		"browser": true,
 		"es2021": true
 	},
 	"extends": [
-		"airbnb-base"
+		"airbnb-base",
+		"plugin:jest/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -12,9 +14,10 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"@typescript-eslint"
+		"@typescript-eslint",
+		"jest"
 	],
 	"rules": {
-		"indent": ["error", "tab"]
+		"indent": ["error", 4]
 	}
 }
