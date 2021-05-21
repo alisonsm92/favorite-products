@@ -4,7 +4,7 @@
   "description": "Customer favorite product service",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "test": "npx jest",
     "prepare": "husky install"
   },
   "repository": {
