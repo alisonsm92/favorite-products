@@ -17,7 +17,7 @@ export default class CreateCustomerOnDB implements CreateCustomer {
         if (exists) {
             return fail(new ValidationError('Email already exists'));
         }
-        const customerData = await this.customerRepository.add(inputData);
+        const customerData = await this.customerRepository.create(inputData);
         return success(customerData);
     }
 }

@@ -7,7 +7,7 @@ describe('Testing create customer on db use case', () => {
     const inputData = { name: 'Alison', email: 'alison@provider.com' };
     const fakeCustomer: CustomerData = { id: 'ID', ...inputData };
     const customerRepository = {
-        add: jest.fn().mockResolvedValue(fakeCustomer),
+        create: jest.fn().mockResolvedValue(fakeCustomer),
         exists: jest.fn().mockResolvedValue(false),
     };
 
