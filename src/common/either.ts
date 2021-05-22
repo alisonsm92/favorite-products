@@ -1,25 +1,36 @@
-export default class Either<T, E> {
-    readonly isSuccess: boolean;
+export class Ok<E, T> {
+    readonly value: T
 
-    readonly isFailure: boolean
-
-    readonly error?: E;
-
-    readonly value?: T;
-
-    private constructor({ isSuccess, error, value }: { isSuccess: boolean, error?: E, value?: T }) {
-        this.isSuccess = isSuccess;
-        this.isFailure = !isSuccess;
+    constructor(value: T) {
         this.value = value;
-        this.error = error;
-        Object.freeze(this);
     }
 
-    public static ok<U, R>(value: U) : Either<U, R> {
-        return new Either<U, R>({ isSuccess: true, value });
+    isFail(): this is Fail<E, T> {
+        return false;
     }
 
-    public static fail<U, R>(error: R): Either<U, R> {
-        return new Either<U, R>({ isSuccess: false, error });
+    isOk(): this is Ok<E, T> {
+        return true;
     }
 }
+export class Fail<E, T> {
+    readonly error: E
+
+    constructor(error: E) {
+        this.error = error;
+    }
+
+    isFail(): this is Fail<E, T> {
+        return true;
+    }
+
+    isOk(): this is Ok<E, T> {
+        return false;
+    }
+}
+
+export type Either<E, T> = Fail<E, T> | Ok<E, T>
+
+export const ok = <E, T>(error: T): Either<E, T> => new Ok<E, T>(error);
+
+export const fail = <E, T>(value: E): Either<E, T> => new Fail<E, T>(value);
