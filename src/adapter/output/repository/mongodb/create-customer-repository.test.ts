@@ -17,11 +17,31 @@ describe('Mongodb User repository', () => {
     });
 
     test('Should persists the costumer in the MongoDB', async () => {
+        const sut = new MongoCustomerRepository();
         const data = { name: 'Alison', email: 'alison@provider.com' };
-        const mongoCustomerRepository = new MongoCustomerRepository();
-        await mongoCustomerRepository.create(data);
+
+        await sut.create(data);
+
         const customerCollection = await MongoHelper.getCollection('customers');
         const customer = await customerCollection.findOne({ email: data.email });
         expect(customer.name).toEqual(data.name);
     });
+
+    test('Should return false when not exists a customer register with the same email',
+        async () => {
+            const sut = new MongoCustomerRepository();
+            const email = 'alison@provider.com';
+            const result = await sut.exists(email);
+            expect(result).toBe(false);
+        });
+
+    test('Should return true when already exists a customer register with the same email',
+        async () => {
+            const sut = new MongoCustomerRepository();
+            const data = { name: 'Alison', email: 'alison@provider.com' };
+            await sut.create(data);
+
+            const result = await sut.exists(data.email);
+            expect(result).toBe(true);
+        });
 });

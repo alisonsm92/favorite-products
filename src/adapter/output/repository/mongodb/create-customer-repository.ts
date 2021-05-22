@@ -13,7 +13,7 @@ export default class MongoCustomerRepository implements CustomerRepository {
 
     async exists(email: CustomerData['email']): Promise<boolean> {
         const customerCollection = MongoHelper.getCollection('customers');
-        const result = await customerCollection.findOne({ email });
-        return result;
+        const result = await customerCollection.findOne({ email }, { projection: { _id: 1 } });
+        return !!result;
     }
 }
