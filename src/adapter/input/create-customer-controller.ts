@@ -9,7 +9,7 @@ import { HttpRequest, HttpResponse } from './port/http';
 
 type Result = Either<ValidationError, CustomerData['id']>
 
-export default class createCustomerController implements Controller {
+export default class CreateCustomerController implements Controller {
     private readonly createCustomer
 
     constructor({ createCustomer }: { createCustomer: CreateCustomer }) {
