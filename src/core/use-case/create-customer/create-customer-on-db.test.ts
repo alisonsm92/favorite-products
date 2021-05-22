@@ -1,6 +1,6 @@
 import { ok, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
-import ValidationError from '../errors/validation-error';
+import ValidationError from '../error/validation-error';
 import CreateCustomerOnDB from './create-customer-on-db';
 
 describe('Testing create customer on db use case', () => {

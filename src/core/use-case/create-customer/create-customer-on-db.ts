@@ -1,8 +1,8 @@
 import { Either, ok, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
-import { CreateCustomerParams } from '../protocols/create-customer-params';
-import { CustomerRepository } from '../protocols/customer-repository';
-import ValidationError from '../errors/validation-error';
+import { CreateCustomerParams } from '../port/create-customer-params';
+import { CustomerRepository } from '../port/customer-repository';
+import ValidationError from '../error/validation-error';
 import { CreateCustomer } from './create-customer';
 
 export default class CreateCustomerOnDB implements CreateCustomer {
