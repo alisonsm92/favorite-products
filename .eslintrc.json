@@ -7,7 +7,7 @@
 	"extends": [
 		"airbnb-base",
 		"plugin:jest/recommended",
-		"plugin:import"
+		"plugin:import/recommended"
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
@@ -18,7 +18,28 @@
 		"@typescript-eslint",
 		"jest"
 	],
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js", ".ts"]
+			}
+		}
+	},
 	"rules": {
-		"indent": ["error", 4]
+		"indent": ["error", 4],
+		"max-len": [
+            "error",
+            {
+                "code": 120,
+                "ignoreComments": true
+            }
+        ],
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+			  "ts": "never"
+			}
+		 ]
 	}
 }
