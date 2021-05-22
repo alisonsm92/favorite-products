@@ -17,6 +17,6 @@ export default class CreateCustomerUseCase {
             return Either.fail(new ValidationError('Email already exists'));
         }
         const customerData = await this.customerRepository.add(inputData);
-        return Either.ok<CustomerData, Error>(customerData);
+        return Either.ok(customerData);
     }
 }
