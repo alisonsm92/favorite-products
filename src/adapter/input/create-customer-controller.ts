@@ -6,7 +6,7 @@ import { CreateCustomerParams } from '../../core/use-case/port/create-customer-p
 import { ok, badRequest, serverError } from './helper/http-helper';
 import { HttpRequest, HttpResponse } from './port/http';
 
-type Result = Either<ValidationError, CustomerData>
+type Result = Either<ValidationError, CustomerData['id']>
 
 export default class createCustomerController {
     private readonly createCustomer
@@ -23,7 +23,7 @@ export default class createCustomerController {
                 return badRequest(result.error);
             }
 
-            return ok(result.value);
+            return ok({ id: result.value, ...inputData });
         } catch (error) {
             return serverError();
         }

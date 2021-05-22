@@ -4,9 +4,8 @@ import CustomerData from '../../core/domain/customer-data';
 import { CreateCustomer } from '../../core/use-case/create-customer/create-customer';
 import ValidationError from '../../core/use-case/error/validation-error';
 import CreateCustomerController from './create-customer-controller';
-import { serverError } from './helper/http-helper';
 
-type Result = Either<ValidationError, CustomerData>
+type Result = Either<ValidationError, CustomerData['id']>
 
 describe('Testing CreateCustomerController', () => {
     const makeCreateCustomer = (result?: Result): CreateCustomer => {
@@ -18,7 +17,7 @@ describe('Testing CreateCustomerController', () => {
         }
         return new CreateCustomerOnDbStub();
     };
-    const makeCreateCustomerSuccess = (data: CustomerData) => makeCreateCustomer(success(data));
+    const makeCreateCustomerSuccess = (data: CustomerData) => makeCreateCustomer(success(data.id));
     const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
     const makeCreateCustomerThrowError = () => makeCreateCustomer();
 

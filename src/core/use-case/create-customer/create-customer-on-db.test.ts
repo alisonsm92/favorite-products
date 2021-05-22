@@ -7,14 +7,14 @@ describe('Testing create customer on db use case', () => {
     const inputData = { name: 'Alison', email: 'alison@provider.com' };
     const fakeCustomer: CustomerData = { id: 'ID', ...inputData };
     const customerRepository = {
-        create: jest.fn().mockResolvedValue(fakeCustomer),
+        create: jest.fn().mockResolvedValue(fakeCustomer.id),
         exists: jest.fn().mockResolvedValue(false),
     };
 
     test('Should create a new customer with success', async () => {
         const createCustomer = new CreateCustomerOnDb(customerRepository);
         const result = await createCustomer.execute(inputData);
-        expect(result).toEqual(success(fakeCustomer));
+        expect(result).toEqual(success(fakeCustomer.id));
     });
 
     test('Should not create a user with email already exists', async () => {

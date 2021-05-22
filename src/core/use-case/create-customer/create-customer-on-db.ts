@@ -12,12 +12,12 @@ export default class CreateCustomerOnDb implements CreateCustomer {
         this.customerRepository = customerRepository;
     }
 
-    async execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, CustomerData>> {
+    async execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, CustomerData['id']>> {
         const exists = await this.customerRepository.exists(inputData.email);
         if (exists) {
             return fail(new ValidationError('Email already exists'));
         }
-        const customerData = await this.customerRepository.create(inputData);
-        return success(customerData);
+        const id = await this.customerRepository.create(inputData);
+        return success(id);
     }
 }
