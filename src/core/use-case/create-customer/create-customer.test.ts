@@ -16,7 +16,7 @@ describe('Testing create customer use case', () => {
         expect(result.value).toBe(DEFAULT_ID);
     });
 
-    test('Should return a validation error when the customer email already exists', async () => {
+    test('Should not create a user with email already exists', async () => {
         customerRepository.exists.mockResolvedValue(true);
         const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
         const result = await createCustomerUseCase.execute(inputData);
