@@ -1,4 +1,4 @@
-import { ok, fail } from '../../../common/either';
+import { success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import ValidationError from '../error/validation-error';
 import CreateCustomerOnDB from './create-customer-on-db';
@@ -14,7 +14,7 @@ describe('Testing create customer on db use case', () => {
     test('Should create a new customer with success', async () => {
         const createCustomerUseCase = new CreateCustomerOnDB(customerRepository);
         const result = await createCustomerUseCase.execute(inputData);
-        expect(result).toEqual(ok(fakeCustomer));
+        expect(result).toEqual(success(fakeCustomer));
     });
 
     test('Should not create a user with email already exists', async () => {

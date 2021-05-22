@@ -1,36 +1,36 @@
-export class Ok<E, T> {
+export class Success<E, T> {
     readonly value: T
 
     constructor(value: T) {
         this.value = value;
     }
 
-    isFail(): this is Fail<E, T> {
+    isFailure(): this is Failure<E, T> {
         return false;
     }
 
-    isOk(): this is Ok<E, T> {
+    isSuccess(): this is Success<E, T> {
         return true;
     }
 }
-export class Fail<E, T> {
+export class Failure<E, T> {
     readonly error: E
 
     constructor(error: E) {
         this.error = error;
     }
 
-    isFail(): this is Fail<E, T> {
+    isFailure(): this is Failure<E, T> {
         return true;
     }
 
-    isOk(): this is Ok<E, T> {
+    isSuccess(): this is Success<E, T> {
         return false;
     }
 }
 
-export type Either<E, T> = Fail<E, T> | Ok<E, T>
+export type Either<E, T> = Failure<E, T> | Success<E, T>
 
-export const ok = <E, T>(error: T): Either<E, T> => new Ok<E, T>(error);
+export const success = <E, T>(error: T): Either<E, T> => new Success<E, T>(error);
 
-export const fail = <E, T>(value: E): Either<E, T> => new Fail<E, T>(value);
+export const fail = <E, T>(value: E): Either<E, T> => new Failure<E, T>(value);

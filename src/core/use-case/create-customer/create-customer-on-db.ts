@@ -1,4 +1,4 @@
-import { Either, ok, fail } from '../../../common/either';
+import { Either, success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import { CreateCustomerParams } from '../port/create-customer-params';
 import { CustomerRepository } from '../port/customer-repository';
@@ -18,6 +18,6 @@ export default class CreateCustomerOnDB implements CreateCustomer {
             return fail(new ValidationError('Email already exists'));
         }
         const customerData = await this.customerRepository.add(inputData);
-        return ok(customerData);
+        return success(customerData);
     }
 }
