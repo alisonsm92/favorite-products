@@ -4,10 +4,11 @@
   "description": "Customer favorite product service",
   "main": "index.js",
   "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
     "test": "npx jest",
     "lint": "eslint 'src/**/*'",
     "lint:fix": "eslint 'src/**/*' --fix",
-    "prepare": "husky install"
+    "prepare": "npm run build && husky install"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "lint-staged": "^11.0.0",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.5.6",
     "typescript": "^4.2.4"
   }
