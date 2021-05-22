@@ -5,7 +5,7 @@ import { CustomerRepository } from '../port/customer-repository';
 import ValidationError from '../error/validation-error';
 import { CreateCustomer } from './create-customer';
 
-export default class CreateCustomerOnDB implements CreateCustomer {
+export default class CreateCustomerOnDb implements CreateCustomer {
     private readonly customerRepository: CustomerRepository
 
     constructor(customerRepository: CustomerRepository) {
