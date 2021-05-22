@@ -11,12 +11,12 @@ export default class CreateCustomerUseCase {
         this.customerRepository = customerRepository;
     }
 
-    async execute(inputData: CreateCustomerParams) :Promise<Either<CustomerData['id'], ValidationError>> {
+    async execute(inputData: CreateCustomerParams) :Promise<Either<CustomerData, ValidationError>> {
         const exists = await this.customerRepository.exists(inputData.email);
         if (exists) {
             return Either.fail(new ValidationError('Email already exists'));
         }
-        const id = await this.customerRepository.add(inputData);
-        return Either.ok<CustomerData['id'], Error>(id);
+        const customerData = await this.customerRepository.add(inputData);
+        return Either.ok<CustomerData, Error>(customerData);
     }
 }
