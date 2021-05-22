@@ -4,24 +4,23 @@ import CustomerData from '../../core/domain/customer-data';
 import { CreateCustomer } from '../../core/use-case/create-customer/create-customer';
 import ValidationError from '../../core/use-case/error/validation-error';
 import CreateCustomerController from './create-customer-controller';
+import { serverError } from './helper/http-helper';
 
 type Result = Either<ValidationError, CustomerData>
 
 describe('Testing CreateCustomerController', () => {
-    const makeCreateCustomer = (result: Result): CreateCustomer => {
+    const makeCreateCustomer = (result?: Result): CreateCustomer => {
         class CreateCustomerOnDbStub implements CreateCustomer {
             async execute(): Promise<Result> {
+                if (!result) return Promise.reject();
                 return Promise.resolve(result);
             }
         }
         return new CreateCustomerOnDbStub();
     };
-    const makeCreateCustomerSuccess = (createdCustomer: CustomerData) => (
-        makeCreateCustomer(success(createdCustomer))
-    );
-    const makeCreateCustomerFailure = (error: Error) => (
-        makeCreateCustomer(fail(error))
-    );
+    const makeCreateCustomerSuccess = (data: CustomerData) => makeCreateCustomer(success(data));
+    const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
+    const makeCreateCustomerThrowError = () => makeCreateCustomer();
 
     test('Should return http response ok when creates the costumer successfully', async () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
@@ -46,4 +45,16 @@ describe('Testing CreateCustomerController', () => {
         expect(httpResponse.statusCode).toBe(400);
         expect(httpResponse.body).toEqual({ error: error.message });
     });
+
+    test('Should return http response server error when throw an error in the create the costumer',
+        async () => {
+            const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
+            const createCustomer = makeCreateCustomerThrowError();
+            const createCustomerController = new CreateCustomerController({ createCustomer });
+
+            const httpResponse = await createCustomerController.handle(httpRequest);
+
+            expect(httpResponse.statusCode).toBe(500);
+            expect(httpResponse.body).toEqual({ error: 'Internal server error' });
+        });
 });
