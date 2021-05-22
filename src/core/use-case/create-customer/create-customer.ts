@@ -1,4 +1,4 @@
-import Either from '../../../common/either';
+import { Either, ok, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import { CreateCustomerParams } from '../protocols/create-customer-params';
 import { CustomerRepository } from '../protocols/customer-repository';
@@ -11,12 +11,12 @@ export default class CreateCustomerUseCase {
         this.customerRepository = customerRepository;
     }
 
-    async execute(inputData: CreateCustomerParams) :Promise<Either<CustomerData, ValidationError>> {
+    async execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, CustomerData>> {
         const exists = await this.customerRepository.exists(inputData.email);
         if (exists) {
-            return Either.fail(new ValidationError('Email already exists'));
+            return fail(new ValidationError('Email already exists'));
         }
         const customerData = await this.customerRepository.add(inputData);
-        return Either.ok(customerData);
+        return ok(customerData);
     }
 }

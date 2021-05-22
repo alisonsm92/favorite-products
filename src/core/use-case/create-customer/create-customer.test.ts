@@ -1,3 +1,4 @@
+import { ok, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import ValidationError from '../errors/validation-error';
 import CreateCustomerUseCase from './create-customer';
@@ -14,15 +15,14 @@ describe('Testing create customer use case', () => {
     test('Should create a new customer with success', async () => {
         const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
         const result = await createCustomerUseCase.execute(inputData);
-        expect(result.isSuccess).toBe(true);
-        expect(result.value).toEqual(fakeCustomer);
+        expect(result).toEqual(ok(fakeCustomer));
     });
 
     test('Should not create a user with email already exists', async () => {
         customerRepository.exists.mockResolvedValue(true);
+        const error = new ValidationError('Email already exists');
         const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
         const result = await createCustomerUseCase.execute(inputData);
-        expect(result.isSuccess).toBe(false);
-        expect(result.error).toBeInstanceOf(ValidationError);
+        expect(result).toEqual(fail(error));
     });
 });
