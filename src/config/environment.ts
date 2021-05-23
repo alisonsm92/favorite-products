@@ -1,6 +1,7 @@
 const env = {
     isProduction: process.env.NODE_ENV === 'production',
-    isDevelopment: process.env.NODE_ENV !== 'production',
+    isDevelopment: process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test',
+    isTest: process.env.NODE_ENV === 'test',
     server: {
         port: process.env.PORT || 3000,
     },
