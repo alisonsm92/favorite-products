@@ -1,6 +1,6 @@
 import MongoHelper from './helper/mongodb-helper';
 import env from '../../../../config/environment';
-import MongoCustomerRepository from './create-customer-repository';
+import MongoCustomerRepository from './customer-repository';
 
 describe('Mongodb User repository', () => {
     beforeAll(async () => {
