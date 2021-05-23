@@ -53,4 +53,28 @@ describe('Mongodb User repository', () => {
                 expect(result).toBe(true);
             });
     });
+
+    describe('Delete method', () => {
+        test('Should no exist the register on DB after delete',
+            async () => {
+                const { sut, collection } = makeSut();
+                const data = { name: 'Alison', email: 'alison@provider.com' };
+                const { insertedId } = await collection.insertOne(data);
+                const id = insertedId.toString();
+
+                const isSuccess = await sut.delete(id);
+
+                const register = await collection.findOne({ _id: insertedId });
+                expect(register).toBeNull();
+                expect(isSuccess).toBe(true);
+            });
+
+        test('Should return false when the register is not found',
+            async () => {
+                const { sut } = makeSut();
+                const nonExistentId = '507f191e810c19729de860ea';
+                const isSuccess = await sut.delete(nonExistentId);
+                expect(isSuccess).toBe(false);
+            });
+    });
 });
