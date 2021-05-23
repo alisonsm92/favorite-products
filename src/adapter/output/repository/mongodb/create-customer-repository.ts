@@ -1,5 +1,5 @@
 import CustomerData from '../../../../core/domain/customer-data';
-import { CreateCustomerParams } from '../../../../core/use-case/port/create-customer-params';
+import CreateCustomerParams from '../../../../core/use-case/create-customer/port/create-customer-params';
 import { CustomerRepository } from '../../../../core/use-case/port/customer-repository';
 import MongoHelper from './helper/mongodb-helper';
 
