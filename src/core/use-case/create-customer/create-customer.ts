@@ -3,6 +3,8 @@ import CustomerData from '../../domain/customer-data';
 import ValidationError from '../error/validation-error';
 import CreateCustomerParams from './port/create-customer-params';
 
-export interface CreateCustomer {
+interface CreateCustomer {
     execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, CustomerData['id']>>
 }
+
+export default CreateCustomer;

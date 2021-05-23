@@ -1,7 +1,7 @@
 import { success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import ValidationError from '../error/validation-error';
-import { CustomerRepository } from '../port/customer-repository';
+import CustomerRepository from '../port/customer-repository';
 import CreateCustomerOnDb from './create-customer-on-db';
 
 describe('Testing create customer on db use case', () => {
