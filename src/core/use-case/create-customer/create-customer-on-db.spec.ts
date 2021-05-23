@@ -7,7 +7,7 @@ import CreateCustomerRepository from './port/create-customer-repository';
 describe('Testing create customer on db use case', () => {
     const inputData = { name: 'Alison', email: 'alison@provider.com' };
     const fakeCustomer: CustomerData = { id: 'ID', ...inputData };
-    const makeCustomerRepository = (opt = { exists: false }): CreateCustomerRepository => {
+    const makeCreateCustomerRepository = (opt = { exists: false }): CreateCustomerRepository => {
         class CreateCustomerRepositoryStub implements CreateCustomerRepository {
             async create(): Promise<CustomerData['id']> {
                 return Promise.resolve(fakeCustomer.id);
@@ -19,19 +19,24 @@ describe('Testing create customer on db use case', () => {
         }
         return new CreateCustomerRepositoryStub();
     };
+    const makeSut = (createCustomerRepository? :CreateCustomerRepository) => {
+        if (!createCustomerRepository) {
+            return new CreateCustomerOnDb(makeCreateCustomerRepository());
+        }
+        return new CreateCustomerOnDb(createCustomerRepository);
+    };
 
     test('Should create a new customer with success', async () => {
-        const createCustomerRepository = makeCustomerRepository();
-        const createCustomer = new CreateCustomerOnDb(createCustomerRepository);
-        const result = await createCustomer.execute(inputData);
+        const sut = makeSut();
+        const result = await sut.execute(inputData);
         expect(result).toEqual(success(fakeCustomer.id));
     });
 
     test('Should not create a user with email already exists', async () => {
         const error = new ValidationError('Email already exists');
-        const createCustomerRepository = makeCustomerRepository({ exists: true });
-        const createCustomer = new CreateCustomerOnDb(createCustomerRepository);
-        const result = await createCustomer.execute(inputData);
+        const createCustomerRepository = makeCreateCustomerRepository({ exists: true });
+        const sut = makeSut(createCustomerRepository);
+        const result = await sut.execute(inputData);
         expect(result).toEqual(fail(error));
     });
 });
