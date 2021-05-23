@@ -20,14 +20,17 @@ describe('Testing CreateCustomerController', () => {
     const makeCreateCustomerSuccess = (data: CustomerData) => makeCreateCustomer(success(data.id));
     const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
     const makeCreateCustomerThrowError = () => makeCreateCustomer();
+    const makeSut = (createCustomer :CreateCustomer): CreateCustomerController => (
+        new CreateCustomerController({ createCustomer })
+    );
 
     test('Should return http response ok when creates the customer successfully', async () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
         const createdCustomer = { id: 'ID', ...httpRequest.body };
         const createCustomer = makeCreateCustomerSuccess(createdCustomer);
-        const createCustomerController = new CreateCustomerController({ createCustomer });
+        const sut = makeSut(createCustomer);
 
-        const httpResponse = await createCustomerController.handle(httpRequest);
+        const httpResponse = await sut.handle(httpRequest);
 
         expect(httpResponse.statusCode).toBe(200);
         expect(httpResponse.body).toEqual(createdCustomer);
@@ -37,9 +40,9 @@ describe('Testing CreateCustomerController', () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
         const error = new ValidationError('Error message');
         const createCustomer = makeCreateCustomerFailure(error);
-        const createCustomerController = new CreateCustomerController({ createCustomer });
+        const sut = makeSut(createCustomer);
 
-        const httpResponse = await createCustomerController.handle(httpRequest);
+        const httpResponse = await sut.handle(httpRequest);
 
         expect(httpResponse.statusCode).toBe(400);
         expect(httpResponse.body).toEqual({ error: error.message });
@@ -49,9 +52,9 @@ describe('Testing CreateCustomerController', () => {
         async () => {
             const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
             const createCustomer = makeCreateCustomerThrowError();
-            const createCustomerController = new CreateCustomerController({ createCustomer });
+            const sut = makeSut(createCustomer);
 
-            const httpResponse = await createCustomerController.handle(httpRequest);
+            const httpResponse = await sut.handle(httpRequest);
 
             expect(httpResponse.statusCode).toBe(500);
             expect(httpResponse.body).toEqual({ error: 'Internal server error' });
