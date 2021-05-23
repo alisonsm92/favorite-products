@@ -1,7 +1,7 @@
 export class Success<E, T> {
-    readonly value: T
+    readonly value?: T
 
-    constructor(value: T) {
+    constructor(value?: T) {
         this.value = value;
     }
 
@@ -31,6 +31,6 @@ export class Failure<E, T> {
 
 export type Either<E, T> = Failure<E, T> | Success<E, T>
 
-export const success = <E, T>(value: T): Either<E, T> => new Success<E, T>(value);
+export const success = <E, T>(value?: T): Either<E, T> => new Success<E, T>(value);
 
 export const fail = <E, T>(error: E): Either<E, T> => new Failure<E, T>(error);
