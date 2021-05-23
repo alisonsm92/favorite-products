@@ -1,7 +1,7 @@
 import { Either, success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import CreateCustomerParams from './port/create-customer-params';
-import CreateCustomerRepository from './port/create-customer-reposioty';
+import CreateCustomerRepository from './port/create-customer-repository';
 import ValidationError from '../error/validation-error';
 import CreateCustomer from './port/create-customer';
 

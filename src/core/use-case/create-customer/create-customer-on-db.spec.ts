@@ -2,7 +2,7 @@ import { success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import ValidationError from '../error/validation-error';
 import CreateCustomerOnDb from './create-customer-on-db';
-import CreateCustomerRepository from './port/create-customer-reposioty';
+import CreateCustomerRepository from './port/create-customer-repository';
 
 describe('Testing create customer on db use case', () => {
     const inputData = { name: 'Alison', email: 'alison@provider.com' };
