@@ -40,12 +40,16 @@
 		"max-classes-per-file": ["error", 2],
 		"class-methods-use-this":"off",
 		"no-use-before-define": ["error", { "functions": false, "classes": false }],
+		"import/no-extraneous-dependencies": [
+			"error", { "devDependencies": ["**/*.test.ts", "**/*.spec.ts"]}
+		],
 		"import/extensions": [
 			"error",
 			"ignorePackages",
 			{
 			  "ts": "never"
 			}
-		 ]
+		 ],
+		 "jest/expect-expect": ["error", { "assertFunctionNames": ["expect", "request.**.expect"] }]
 	}
 }
