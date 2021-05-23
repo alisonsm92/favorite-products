@@ -12,36 +12,45 @@ describe('Mongodb User repository', () => {
     });
 
     beforeEach(async () => {
-        const customerCollection = await MongoHelper.getCollection('customers');
+        const customerCollection = MongoHelper.getCollection('customers');
         await customerCollection.deleteMany({});
     });
 
-    test('Should persists the customer in the MongoDB', async () => {
+    function makeSut() {
+        const collection = MongoHelper.getCollection('customers');
         const sut = new MongoCustomerRepository();
-        const data = { name: 'Alison', email: 'alison@provider.com' };
 
-        await sut.create(data);
+        return { sut, collection };
+    }
 
-        const customerCollection = await MongoHelper.getCollection('customers');
-        const customer = await customerCollection.findOne({ email: data.email });
-        expect(customer.name).toEqual(data.name);
-    });
-
-    test('Should return false when not exists a customer register with the same email',
-        async () => {
-            const sut = new MongoCustomerRepository();
-            const email = 'alison@provider.com';
-            const result = await sut.exists(email);
-            expect(result).toBe(false);
-        });
-
-    test('Should return true when already exists a customer register with the same email',
-        async () => {
-            const sut = new MongoCustomerRepository();
+    describe('Create method', () => {
+        test('Should persists the customer in the MongoDB', async () => {
+            const { sut, collection } = makeSut();
             const data = { name: 'Alison', email: 'alison@provider.com' };
+
             await sut.create(data);
 
-            const result = await sut.exists(data.email);
-            expect(result).toBe(true);
+            const customer = await collection.findOne({ email: data.email });
+            expect(customer.name).toEqual(data.name);
         });
+    });
+
+    describe('Exists method', () => {
+        test('Should return false when not exists a customer register with the same email',
+            async () => {
+                const { sut } = makeSut();
+                const email = 'alison@provider.com';
+                const result = await sut.exists(email);
+                expect(result).toBe(false);
+            });
+
+        test('Should return true when already exists a customer register with the same email',
+            async () => {
+                const { sut } = makeSut();
+                const data = { name: 'Alison', email: 'alison@provider.com' };
+                await sut.create(data);
+                const result = await sut.exists(data.email);
+                expect(result).toBe(true);
+            });
+    });
 });
