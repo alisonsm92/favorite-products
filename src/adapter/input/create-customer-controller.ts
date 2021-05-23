@@ -1,6 +1,6 @@
 import { Either } from '../../common/either';
 import CustomerData from '../../core/domain/customer-data';
-import CreateCustomer from '../../core/use-case/create-customer/create-customer';
+import CreateCustomer from '../../core/use-case/create-customer/port/create-customer';
 import ValidationError from '../../core/use-case/error/validation-error';
 import CreateCustomerParams from '../../core/use-case/create-customer/port/create-customer-params';
 import Controller from './port/controller';

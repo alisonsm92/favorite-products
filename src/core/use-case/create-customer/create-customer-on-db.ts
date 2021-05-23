@@ -3,7 +3,7 @@ import CustomerData from '../../domain/customer-data';
 import CreateCustomerParams from './port/create-customer-params';
 import CreateCustomerRepository from './port/create-customer-reposioty';
 import ValidationError from '../error/validation-error';
-import CreateCustomer from './create-customer';
+import CreateCustomer from './port/create-customer';
 
 export default class CreateCustomerOnDb implements CreateCustomer {
     private readonly createCustomerRepository: CreateCustomerRepository

@@ -22,4 +22,8 @@ export default class MongoCustomerRepository implements CreateCustomerRepository
         const result = await this.getCollection().findOne({ email }, { projection: { _id: 1 } });
         return !!result;
     }
+
+    async delete(id: CustomerData['id']): Promise<void> {
+        await this.getCollection().deleteOne({ _id: new ObjectID(id) });
+    }
 }
