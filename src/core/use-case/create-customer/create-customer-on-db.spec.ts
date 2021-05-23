@@ -1,14 +1,14 @@
 import { success, fail } from '../../../common/either';
 import CustomerData from '../../domain/customer-data';
 import ValidationError from '../error/validation-error';
-import CustomerRepository from '../port/customer-repository';
 import CreateCustomerOnDb from './create-customer-on-db';
+import CreateCustomerRepository from './port/create-customer-reposioty';
 
 describe('Testing create customer on db use case', () => {
     const inputData = { name: 'Alison', email: 'alison@provider.com' };
     const fakeCustomer: CustomerData = { id: 'ID', ...inputData };
-    const makeCustomerRepository = (opt = { exists: false }): CustomerRepository => {
-        class CreateCustomerRepositoryStub implements CustomerRepository {
+    const makeCustomerRepository = (opt = { exists: false }): CreateCustomerRepository => {
+        class CreateCustomerRepositoryStub implements CreateCustomerRepository {
             async create(): Promise<CustomerData['id']> {
                 return Promise.resolve(fakeCustomer.id);
             }
@@ -21,16 +21,16 @@ describe('Testing create customer on db use case', () => {
     };
 
     test('Should create a new customer with success', async () => {
-        const customerRepository = makeCustomerRepository();
-        const createCustomer = new CreateCustomerOnDb(customerRepository);
+        const createCustomerRepository = makeCustomerRepository();
+        const createCustomer = new CreateCustomerOnDb(createCustomerRepository);
         const result = await createCustomer.execute(inputData);
         expect(result).toEqual(success(fakeCustomer.id));
     });
 
     test('Should not create a user with email already exists', async () => {
         const error = new ValidationError('Email already exists');
-        const customerRepository = makeCustomerRepository({ exists: true });
-        const createCustomer = new CreateCustomerOnDb(customerRepository);
+        const createCustomerRepository = makeCustomerRepository({ exists: true });
+        const createCustomer = new CreateCustomerOnDb(createCustomerRepository);
         const result = await createCustomer.execute(inputData);
         expect(result).toEqual(fail(error));
     });
