@@ -1,5 +1,5 @@
 import { MongoClient, Collection } from 'mongodb';
-import config from '../../../../../config/environment';
+import env from '../../../../../config/environment';
 
 const MongoHelper = {
     client: null as unknown as MongoClient,
@@ -7,7 +7,7 @@ const MongoHelper = {
         const options = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            serverSelectionTimeoutMS: config.mongodb.timeoutMS,
+            serverSelectionTimeoutMS: env.mongodb.timeoutMS,
         };
         this.client = await MongoClient.connect(uri, options);
     },

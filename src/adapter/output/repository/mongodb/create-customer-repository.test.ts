@@ -1,10 +1,10 @@
 import MongoHelper from './helper/mongodb-helper';
-import config from '../../../../config/environment';
+import env from '../../../../config/environment';
 import MongoCustomerRepository from './create-customer-repository';
 
 describe('Mongodb User repository', () => {
     beforeAll(async () => {
-        await MongoHelper.connect(config.mongodb.uri);
+        await MongoHelper.connect(env.mongodb.uri);
     });
 
     afterAll(async () => {

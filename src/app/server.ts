@@ -1,15 +1,15 @@
 import dotenv from 'dotenv';
 import MongoHelper from '../adapter/output/repository/mongodb/helper/mongodb-helper';
-import config from '../config/environment';
+import env from '../config/environment';
 
 dotenv.config();
 
-MongoHelper.connect(config.mongodb.uri)
+MongoHelper.connect(env.mongodb.uri)
     .then(async () => {
         console.log('MongoDB: connected');
         const app = (await import('./express/app')).default;
-        app.listen(config.server.port, () => {
-            console.log(`Server: running at http://localhost:${config.server.port}`);
+        app.listen(env.server.port, () => {
+            console.log(`Server: running at http://localhost:${env.server.port}`);
         });
     })
     .catch(console.error);
