@@ -21,7 +21,7 @@ describe('Testing CreateCustomerController', () => {
     const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
     const makeCreateCustomerThrowError = () => makeCreateCustomer();
 
-    test('Should return http response ok when creates the costumer successfully', async () => {
+    test('Should return http response ok when creates the customer successfully', async () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
         const createdCustomer = { id: 'ID', ...httpRequest.body };
         const createCustomer = makeCreateCustomerSuccess(createdCustomer);
@@ -33,7 +33,7 @@ describe('Testing CreateCustomerController', () => {
         expect(httpResponse.body).toEqual(createdCustomer);
     });
 
-    test('Should return http response bad request when fail to create the costumer', async () => {
+    test('Should return http response bad request when fail to create the customer', async () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
         const error = new ValidationError('Error message');
         const createCustomer = makeCreateCustomerFailure(error);
@@ -45,7 +45,7 @@ describe('Testing CreateCustomerController', () => {
         expect(httpResponse.body).toEqual({ error: error.message });
     });
 
-    test('Should return http response server error when throw an error in the create the costumer',
+    test('Should return http response server error when throw an error in the create the customer',
         async () => {
             const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
             const createCustomer = makeCreateCustomerThrowError();

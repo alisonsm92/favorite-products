@@ -16,7 +16,7 @@ describe('Mongodb User repository', () => {
         await customerCollection.deleteMany({});
     });
 
-    test('Should persists the costumer in the MongoDB', async () => {
+    test('Should persists the customer in the MongoDB', async () => {
         const sut = new MongoCustomerRepository();
         const data = { name: 'Alison', email: 'alison@provider.com' };
 
