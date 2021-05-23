@@ -6,10 +6,10 @@ dotenv.config();
 
 MongoHelper.connect(config.mongodb.uri)
     .then(async () => {
-        console.log('MongoDB is connected');
+        console.log('MongoDB: connected');
         const app = (await import('./express/app')).default;
         app.listen(config.server.port, () => {
-            console.log(`Server running at http://localhost:${config.server.port}`);
+            console.log(`Server: running at http://localhost:${config.server.port}`);
         });
     })
     .catch(console.error);
