@@ -1,8 +1,7 @@
 /* eslint-disable class-methods-use-this */
-
-import { Either, success, fail } from '../../common/either';
-import DeleteCustomer from '../../core/use-case/delete-customer/port/delete-customer';
-import NotFoundError from '../../core/use-case/error/not-found-error';
+import { Either, success, fail } from '../../../common/either';
+import DeleteCustomer from '../../../core/use-case/delete-customer/port/delete-customer';
+import NotFoundError from '../../../core/use-case/error/not-found-error';
 import DeleteCustomerController from './delete-customer-controller';
 
 type Result = Either<NotFoundError, void>

@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import { Either, fail, success } from '../../common/either';
-import CustomerData from '../../core/domain/customer-data';
-import CreateCustomer from '../../core/use-case/create-customer/port/create-customer';
-import ValidationError from '../../core/use-case/error/validation-error';
+import { Either, fail, success } from '../../../common/either';
+import CustomerData from '../../../core/domain/customer-data';
+import CreateCustomer from '../../../core/use-case/create-customer/port/create-customer';
+import ValidationError from '../../../core/use-case/error/validation-error';
 import CreateCustomerController from './create-customer-controller';
 
 type Result = Either<ValidationError, CustomerData['id']>
