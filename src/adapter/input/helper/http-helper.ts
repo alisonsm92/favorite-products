@@ -5,12 +5,22 @@ export const ok = (data: unknown): HttpResponse => ({
     body: data,
 });
 
-export const badRequest = (error: Error): HttpResponse => ({
+export const noContent = (): HttpResponse => ({
+    statusCode: 204,
+    body: null,
+});
+
+export const badRequest = ({ message }: Error): HttpResponse => ({
     statusCode: 400,
-    body: { error: error.message },
+    body: { error: { message } },
+});
+
+export const notFound = ({ message }: Error): HttpResponse => ({
+    statusCode: 404,
+    body: { error: { message } },
 });
 
 export const serverError = (): HttpResponse => ({
     statusCode: 500,
-    body: { error: 'Internal server error' },
+    body: { error: { message: 'Internal server error' } },
 });
