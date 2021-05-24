@@ -4,6 +4,6 @@ export interface HttpResponse {
   }
 
 export interface HttpRequest {
-    params: unknown
+    params?: unknown
     body: unknown
   }
