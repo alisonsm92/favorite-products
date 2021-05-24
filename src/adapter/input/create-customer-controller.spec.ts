@@ -45,7 +45,7 @@ describe('Testing CreateCustomerController', () => {
         const httpResponse = await sut.handle(httpRequest);
 
         expect(httpResponse.statusCode).toBe(400);
-        expect(httpResponse.body).toEqual({ error: error.message });
+        expect(httpResponse.body).toEqual({ error: { message: error.message } });
     });
 
     test('Should return http response server error when throw an error in the create the customer',
@@ -57,6 +57,6 @@ describe('Testing CreateCustomerController', () => {
             const httpResponse = await sut.handle(httpRequest);
 
             expect(httpResponse.statusCode).toBe(500);
-            expect(httpResponse.body).toEqual({ error: 'Internal server error' });
+            expect(httpResponse.body).toEqual({ error: { message: 'Internal server error' } });
         });
 });
