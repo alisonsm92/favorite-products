@@ -11,7 +11,7 @@ export default class DeleteCustomerOnDb implements DeleteCustomer {
         this.deleteCustomerRepository = deleteCustomerRepository;
     }
 
-    async execute(id: DeleteCustomerParams): Promise<Either<NotFoundError, void>> {
+    async execute(id: DeleteCustomerParams['id']): Promise<Either<NotFoundError, void>> {
         const isSuccess = await this.deleteCustomerRepository.delete(id);
         if (!isSuccess) {
             return fail(new NotFoundError('customer'));

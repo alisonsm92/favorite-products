@@ -1,5 +1,7 @@
 import CustomerData from '../../../domain/customer-data';
 
-type DeleteCustomerParams = CustomerData['id']
+type DeleteCustomerParams = {
+    id: CustomerData['id']
+}
 
 export default DeleteCustomerParams;

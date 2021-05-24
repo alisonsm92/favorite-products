@@ -1,7 +1,7 @@
 import DeleteCustomerParams from './delete-customer-params';
 
 interface DeleteCustomerRepository {
-  delete (id: DeleteCustomerParams): Promise<boolean>
+  delete (id: DeleteCustomerParams['id']): Promise<boolean>
 }
 
 export default DeleteCustomerRepository;

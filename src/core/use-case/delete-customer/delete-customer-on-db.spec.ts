@@ -7,7 +7,7 @@ import DeleteCustomerRepository from './port/delete-customer-repository';
 describe('Testing delete customer on db use case', () => {
     const makeDeleteCustomerRepository = (opt = { exists: false }): DeleteCustomerRepository => {
         class DeleteCustomerRepositoryStub implements DeleteCustomerRepository {
-            async delete(id: DeleteCustomerParams): Promise<boolean> {
+            async delete(id: DeleteCustomerParams['id']): Promise<boolean> {
                 return Promise.resolve(!opt.exists);
             }
         }
