@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { Schema, Validator } from 'jsonschema';
 import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongodb-helper';
 import env from '../../../config/environment';
 import app from '../app';
@@ -24,6 +25,19 @@ describe('Testing POST /customers', () => {
                 name: 'Alison',
                 email: 'alison@provider.com',
             })
-            .expect(200);
+            .expect((res) => {
+                const jsonValidator = new Validator();
+                const schema: Schema = {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string', required: true },
+                        name: { type: 'string', required: true },
+                        email: { type: 'string', required: true },
+                    },
+                    additionalProperties: false,
+                };
+                expect(res.status).toBe(200);
+                expect(jsonValidator.validate(res.body, schema).valid).toBeTruthy();
+            });
     });
 });

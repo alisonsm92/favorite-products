@@ -15,7 +15,7 @@ export default class MongoCustomerRepository implements CreateCustomerRepository
     }
 
     async create(data: CreateCustomerParams): Promise<CustomerData['id']> {
-        const { insertedId } = await this.getCollection().insertOne(data);
+        const { insertedId } = await this.getCollection().insertOne({ ...data });
         return insertedId.toString();
     }
 

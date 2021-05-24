@@ -17,7 +17,7 @@ describe('Testing CreateCustomerController', () => {
         }
         return new CreateCustomerOnDbStub();
     };
-    const makeCreateCustomerSuccess = (data: CustomerData) => makeCreateCustomer(success(data.id));
+    const makeCreateCustomerSuccess = (newId: CustomerData['id']) => makeCreateCustomer(success(newId));
     const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
     const makeCreateCustomerThrowError = () => makeCreateCustomer();
     const makeSut = (createCustomer :CreateCustomer): CreateCustomerController => (
@@ -26,14 +26,18 @@ describe('Testing CreateCustomerController', () => {
 
     test('Should return http response ok when creates the customer successfully', async () => {
         const httpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
-        const createdCustomer = { id: 'ID', ...httpRequest.body };
-        const createCustomer = makeCreateCustomerSuccess(createdCustomer);
+        const newId = 'some_id';
+        const createCustomer = makeCreateCustomerSuccess(newId);
         const sut = makeSut(createCustomer);
 
         const httpResponse = await sut.handle(httpRequest);
 
         expect(httpResponse.statusCode).toBe(200);
-        expect(httpResponse.body).toEqual(createdCustomer);
+        expect(httpResponse.body).toEqual({
+            id: newId,
+            name: 'Alison',
+            email: 'alison@provider.com',
+        });
     });
 
     test('Should return http response bad request when fail to create the customer', async () => {

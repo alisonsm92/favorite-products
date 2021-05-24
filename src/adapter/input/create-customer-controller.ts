@@ -18,7 +18,7 @@ export default class CreateCustomerController implements Controller {
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const inputData = request.body as CreateCustomerParams;
+            const inputData = Object.freeze(request.body) as CreateCustomerParams;
             const result: Result = await this.createCustomer.execute(inputData);
             if (result.isFailure()) {
                 return badRequest(result.error);
