@@ -21,9 +21,9 @@ describe('Testing create customer on db use case', () => {
     };
     const makeSut = (createCustomerRepository? :CreateCustomerRepository) => {
         if (!createCustomerRepository) {
-            return new CreateCustomerOnDb(makeCreateCustomerRepository());
+            return new CreateCustomerOnDb({ createCustomerRepository: makeCreateCustomerRepository() });
         }
-        return new CreateCustomerOnDb(createCustomerRepository);
+        return new CreateCustomerOnDb({ createCustomerRepository });
     };
 
     test('Should create a new customer with success', async () => {

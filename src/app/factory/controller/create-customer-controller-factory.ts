@@ -5,6 +5,6 @@ import CreateCustomerOnDb from '../../../core/use-case/create-customer/create-cu
 
 export default function makeCreateCustomerController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
-    const createCustomerOnDb = new CreateCustomerOnDb(mongoCustomerRepository);
+    const createCustomerOnDb = new CreateCustomerOnDb({ createCustomerRepository: mongoCustomerRepository });
     return new CreateCustomerController({ createCustomer: createCustomerOnDb });
 }
