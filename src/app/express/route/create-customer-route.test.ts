@@ -3,7 +3,7 @@ import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongo
 import env from '../../../config/environment';
 import app from '../app';
 
-describe('Register Routes', () => {
+describe('Testing POST /customers', () => {
     beforeAll(async () => {
         await MongoHelper.connect(env.mongodb.uri);
     });
