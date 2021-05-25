@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import JsonSchemaValidatorWrapper from '../../../app/validator/json-schema-validator-wrapper';
 import { Either, fail, success } from '../../../common/either';
-import Customer from '../../../core/domain/customer-data';
+import Customer from '../../../core/domain/customer';
 import CreateCustomer from '../../../core/use-case/create-customer/port/create-customer';
 import ValidationError from '../../../core/use-case/error/validation-error';
 import CreateCustomerController from './create-customer-controller';

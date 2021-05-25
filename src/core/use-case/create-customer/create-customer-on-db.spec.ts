@@ -1,5 +1,5 @@
 import { success, fail } from '../../../common/either';
-import Customer from '../../domain/customer-data';
+import Customer from '../../domain/customer';
 import ValidationError from '../error/validation-error';
 import CreateCustomerOnDb from './create-customer-on-db';
 import CreateCustomerRepository from './port/create-customer-repository';

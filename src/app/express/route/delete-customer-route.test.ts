@@ -1,7 +1,7 @@
 import request from 'supertest';
 import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongodb-helper';
 import env from '../../../config/environment';
-import Customer from '../../../core/domain/customer-data';
+import Customer from '../../../core/domain/customer';
 import app from '../app';
 
 describe('Testing DELETE /customers', () => {

@@ -1,5 +1,5 @@
 import { Collection, ObjectID } from 'mongodb';
-import Customer from '../../../../core/domain/customer-data';
+import Customer from '../../../../core/domain/customer';
 import CreateCustomerParams from '../../../../core/use-case/create-customer/port/create-customer-params';
 import CreateCustomerRepository from '../../../../core/use-case/create-customer/port/create-customer-repository';
 import DeleteCustomerRepository from '../../../../core/use-case/delete-customer/port/delete-customer-repository';

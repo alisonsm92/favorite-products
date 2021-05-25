@@ -1,4 +1,4 @@
-import Customer from '../../../domain/customer-data';
+import Customer from '../../../domain/customer';
 
 type CreateCustomerParams = Omit<Customer, 'id'>
 
