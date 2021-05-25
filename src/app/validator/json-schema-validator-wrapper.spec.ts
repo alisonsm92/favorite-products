@@ -1,7 +1,7 @@
 import InvalidInputError from '../../adapter/input/error/invalid-input-error';
-import { Schema } from '../../adapter/input/port/json-validator';
+import { Schema } from '../../adapter/input/port/json-schema-validator';
 import { fail, success } from '../../common/either';
-import JsonSchemaValidatorWrapper from './json-schema';
+import JsonSchemaValidatorWrapper from './json-schema-validator-wrapper';
 
 describe('Testing JsonSchemaValidatorWrapper', () => {
     test('Should return success when validation result is valid', () => {

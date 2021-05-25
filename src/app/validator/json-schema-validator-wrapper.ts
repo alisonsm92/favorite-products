@@ -1,6 +1,6 @@
 import { ValidationError, Validator } from 'jsonschema';
 import InvalidInputError from '../../adapter/input/error/invalid-input-error';
-import { JsonSchemaValidator, Schema } from '../../adapter/input/port/json-validator';
+import { JsonSchemaValidator, Schema } from '../../adapter/input/port/json-schema-validator';
 import { Either, success, fail } from '../../common/either';
 
 export default class JsonSchemaValidatorWrapper implements JsonSchemaValidator {
