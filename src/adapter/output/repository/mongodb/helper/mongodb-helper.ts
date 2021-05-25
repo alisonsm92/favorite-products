@@ -1,10 +1,10 @@
-import { MongoClient, Collection } from 'mongodb';
+import { MongoClient, Collection, MongoClientOptions } from 'mongodb';
 import env from '../../../../../config/environment';
 
 const MongoHelper = {
     client: null as unknown as MongoClient,
     async connect(uri: string): Promise<void> {
-        const options = {
+        const options:MongoClientOptions = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverSelectionTimeoutMS: env.mongodb.timeoutMS,
