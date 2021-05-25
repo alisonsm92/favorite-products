@@ -14,14 +14,14 @@ describe('Testing DELETE /customers', () => {
     });
 
     beforeEach(async () => {
-        const customerCollection = await MongoHelper.getCollection('customers');
+        const customerCollection = MongoHelper.getCollection('customers');
         await customerCollection.deleteMany({});
     });
 
     const mockCustomerRegister = async (): Promise<CustomerData> => {
         const customerData = { name: 'Alison', email: 'alison@provider.com' };
-        const customerCollection = await MongoHelper.getCollection('customers');
-        const { insertedId } = await customerCollection.insertOne(customerData);
+        const customerCollection = MongoHelper.getCollection('customers');
+        const { insertedId } = await customerCollection.insertOne({ ...customerData });
         return { id: insertedId.toString(), ...customerData };
     };
 

@@ -14,7 +14,7 @@ describe('Testing POST /customers', () => {
     });
 
     beforeEach(async () => {
-        const customerCollection = await MongoHelper.getCollection('customers');
+        const customerCollection = MongoHelper.getCollection('customers');
         await customerCollection.deleteMany({});
     });
 
