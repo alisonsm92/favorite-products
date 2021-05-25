@@ -1,10 +1,10 @@
 import { Either } from '../../../../common/either';
-import CustomerData from '../../../domain/customer-data';
+import Customer from '../../../domain/customer-data';
 import ValidationError from '../../error/validation-error';
 import CreateCustomerParams from './create-customer-params';
 
 interface CreateCustomer {
-    execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, CustomerData['id']>>
+    execute(inputData: CreateCustomerParams) :Promise<Either<ValidationError, Customer['id']>>
 }
 
 export default CreateCustomer;

@@ -1,5 +1,5 @@
-import CustomerData from '../../../domain/customer-data';
+import Customer from '../../../domain/customer-data';
 
-type CreateCustomerParams = Omit<CustomerData, 'id'>
+type CreateCustomerParams = Omit<Customer, 'id'>
 
 export default CreateCustomerParams;

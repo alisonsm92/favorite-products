@@ -1,12 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import JsonSchemaValidatorWrapper from '../../../app/validator/json-schema-validator-wrapper';
 import { Either, fail, success } from '../../../common/either';
-import CustomerData from '../../../core/domain/customer-data';
+import Customer from '../../../core/domain/customer-data';
 import CreateCustomer from '../../../core/use-case/create-customer/port/create-customer';
 import ValidationError from '../../../core/use-case/error/validation-error';
 import CreateCustomerController from './create-customer-controller';
 
-type Result = Either<ValidationError, CustomerData['id']>
+type Result = Either<ValidationError, Customer['id']>
 
 describe('Testing CreateCustomerController', () => {
     const makeCreateCustomer = (result?: Result): CreateCustomer => {
@@ -18,7 +18,7 @@ describe('Testing CreateCustomerController', () => {
         }
         return new CreateCustomerOnDbStub();
     };
-    const makeCreateCustomerSuccess = (newId: CustomerData['id']) => makeCreateCustomer(success(newId));
+    const makeCreateCustomerSuccess = (newId: Customer['id']) => makeCreateCustomer(success(newId));
     const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
     const makeCreateCustomerThrowError = () => makeCreateCustomer();
     const makeSut = (createCustomer :CreateCustomer): CreateCustomerController => {

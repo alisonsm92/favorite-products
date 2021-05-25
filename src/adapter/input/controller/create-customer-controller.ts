@@ -1,5 +1,5 @@
 import { Either } from '../../../common/either';
-import CustomerData from '../../../core/domain/customer-data';
+import Customer from '../../../core/domain/customer-data';
 import CreateCustomer from '../../../core/use-case/create-customer/port/create-customer';
 import CreateCustomerParams from '../../../core/use-case/create-customer/port/create-customer-params';
 import ValidationError from '../../../core/use-case/error/validation-error';
@@ -9,7 +9,7 @@ import { HttpRequest, HttpResponse } from '../port/http';
 import { JsonSchemaValidator } from '../port/json-schema-validator';
 import createCustomerSchema from '../schema/create-customer-schema';
 
-type Result = Either<ValidationError, CustomerData['id']>
+type Result = Either<ValidationError, Customer['id']>
 
 export default class CreateCustomerController implements Controller {
     private readonly createCustomer: CreateCustomer

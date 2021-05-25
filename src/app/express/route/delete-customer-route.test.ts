@@ -1,7 +1,7 @@
 import request from 'supertest';
 import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongodb-helper';
 import env from '../../../config/environment';
-import CustomerData from '../../../core/domain/customer-data';
+import Customer from '../../../core/domain/customer-data';
 import app from '../app';
 
 describe('Testing DELETE /customers', () => {
@@ -18,7 +18,7 @@ describe('Testing DELETE /customers', () => {
         await customerCollection.deleteMany({});
     });
 
-    const mockCustomerRegister = async (): Promise<CustomerData> => {
+    const mockCustomerRegister = async (): Promise<Customer> => {
         const customerData = { name: 'Alison', email: 'alison@provider.com' };
         const customerCollection = MongoHelper.getCollection('customers');
         const { insertedId } = await customerCollection.insertOne({ ...customerData });

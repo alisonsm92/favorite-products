@@ -1,7 +1,7 @@
-interface CustomerData {
+interface Customer {
     id: string,
     name: string,
     email: string
 }
 
-export default CustomerData;
+export default Customer;
