@@ -2,9 +2,11 @@ import CreateCustomerController from '../../../adapter/input/controller/create-c
 import Controller from '../../../adapter/input/port/controller';
 import MongoCustomerRepository from '../../../adapter/output/repository/mongodb/customer-repository';
 import CreateCustomerOnDb from '../../../core/use-case/create-customer/create-customer-on-db';
+import JsonSchemaValidatorWrapper from '../../validator/json-schema-validator-wrapper';
 
 export default function makeCreateCustomerController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
     const createCustomerOnDb = new CreateCustomerOnDb({ createCustomerRepository: mongoCustomerRepository });
-    return new CreateCustomerController({ createCustomer: createCustomerOnDb });
+    const jsonSchemaValidator = new JsonSchemaValidatorWrapper();
+    return new CreateCustomerController({ createCustomer: createCustomerOnDb, jsonSchemaValidator });
 }
