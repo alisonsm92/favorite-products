@@ -5,9 +5,7 @@ import CreateCustomerRepository from '../../../../core/use-case/create-customer/
 import DeleteCustomerRepository from '../../../../core/use-case/delete-customer/port/delete-customer-repository';
 import MongoHelper from './helper/mongodb-helper';
 
-interface CustomerRegister extends Omit<CustomerData, 'id'> {
-    _id: ObjectID
-}
+interface CustomerRegister extends Omit<CustomerData, 'id'> { _id: ObjectID }
 
 export default class MongoCustomerRepository implements CreateCustomerRepository, DeleteCustomerRepository {
     getCollection(): Collection<CustomerRegister> {
