@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node -r dotenv/config dist/app/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:unit": "jest -c jest-unit-config.js",
-    "test:integration": "jest -c jest-integration-config.js",
-    "test:coverage": "jest --collect-coverage",
+    "test:integration": "npm test -- -c jest-integration-config.js",
+    "test:coverage": "npm test -- --collect-coverage",
     "lint": "eslint 'src/**/*'",
     "lint:fix": "eslint 'src/**/*' --fix",
     "prepare": "npm run build && husky install"

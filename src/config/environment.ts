@@ -7,7 +7,7 @@ const env = {
     },
     mongodb: {
         uri: process.env.MONGO_URL || 'mongodb://localhost',
-        timeoutMS: process.env.MONGO_TIMEOUT_MS ? parseInt(process.env.MONGO_TIMEOUT_MS, 10) : 5000,
+        timeoutMS: process.env.MONGO_TIMEOUT_MS ? parseInt(process.env.MONGO_TIMEOUT_MS, 10) : 30000,
     },
     logger: {
         level: process.env.LOG_LEVEL || 'debug',
