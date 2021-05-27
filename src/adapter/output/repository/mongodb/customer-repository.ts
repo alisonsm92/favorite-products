@@ -15,6 +15,11 @@ CreateCustomerRepository, DeleteCustomerRepository, UpdateCustomerRepository {
         return MongoHelper.getCollection('customers');
     }
 
+    private static map(document: CustomerRegister): Customer {
+        const { _id, ...rest } = document;
+        return { ...rest, id: _id.toString() };
+    }
+
     async create(data: CreateCustomerParams): Promise<Customer['id']> {
         const { insertedId } = await this.getCollection().insertOne({ ...data });
         return insertedId.toString();
@@ -23,6 +28,12 @@ CreateCustomerRepository, DeleteCustomerRepository, UpdateCustomerRepository {
     async exists(email: Customer['email']): Promise<boolean> {
         const result = await this.getCollection().findOne({ email }, { projection: { _id: 1 } });
         return !!result;
+    }
+
+    async findByEmail(email: Customer['email']): Promise<Customer|null> {
+        const result = await this.getCollection().findOne({ email });
+        if (!result) return result;
+        return MongoCustomerRepository.map(result);
     }
 
     async delete(id: Customer['id']): Promise<boolean> {

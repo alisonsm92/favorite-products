@@ -61,6 +61,24 @@ describe('Mongodb User repository', () => {
             });
     });
 
+    describe('FindByEmail method', () => {
+        test('Should return the register when there are a customer with the email provided',
+            async () => {
+                const data = { name: 'Alison', email: 'alison@provider.com' };
+                const id = await insertCustomer({ ...data });
+                const { sut } = makeSut();
+                const result = await sut.findByEmail(data.email);
+                expect(result).toEqual({ id, ...data });
+            });
+
+        test('Should return null when there are none customer register with the email provided',
+            async () => {
+                const { sut } = makeSut();
+                const result = await sut.findByEmail('non-existent email');
+                expect(result).toBeNull();
+            });
+    });
+
     describe('Delete method', () => {
         test('Should no exist the register on DB after delete',
             async () => {
