@@ -2,7 +2,7 @@ import Customer from '../../../domain/customer';
 import Product from '../../../domain/product';
 
 interface UpdateCustomerRepository {
-    addFavoriteProduct(customerID: Customer['id'], product: Product): Promise<Product|null>
+    addFavoriteProduct(customerId: Customer['id'], productId: Product['id']): Promise<void>
 }
 
 export default UpdateCustomerRepository;

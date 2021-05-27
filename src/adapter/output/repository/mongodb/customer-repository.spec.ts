@@ -1,6 +1,8 @@
+import { ObjectID } from 'mongodb';
 import MongoHelper from './helper/mongodb-helper';
 import env from '../../../../config/environment';
 import MongoCustomerRepository from './customer-repository';
+import Customer from '../../../../core/domain/customer';
 
 describe('Mongodb User repository', () => {
     beforeAll(async () => {
@@ -21,6 +23,11 @@ describe('Mongodb User repository', () => {
         const sut = new MongoCustomerRepository();
 
         return { sut, collection };
+    }
+
+    async function insertCustomer(data:Omit<Customer, 'id'>) {
+        const { insertedId } = await MongoHelper.getCollection('customers').insertOne(data);
+        return insertedId.toString();
     }
 
     describe('Create method', () => {
@@ -59,12 +66,11 @@ describe('Mongodb User repository', () => {
             async () => {
                 const { sut, collection } = makeSut();
                 const data = { name: 'Alison', email: 'alison@provider.com' };
-                const { insertedId } = await collection.insertOne(data);
-                const id = insertedId.toString();
+                const id = await insertCustomer(data);
 
                 const isSuccess = await sut.delete(id);
 
-                const register = await collection.findOne({ _id: insertedId });
+                const register = await collection.findOne({ _id: new ObjectID(id) });
                 expect(register).toBeNull();
                 expect(isSuccess).toBe(true);
             });
@@ -76,5 +82,37 @@ describe('Mongodb User repository', () => {
                 const isSuccess = await sut.delete(nonExistentId);
                 expect(isSuccess).toBe(false);
             });
+    });
+
+    describe('AddFavoriteProduct method', () => {
+        const product = {
+            price: 100.0,
+            image: 'https://fake-products-api.com/images/uuid.jpg',
+            brand: 'The best',
+            id: '1',
+            title: 'Favorite product',
+        };
+
+        test('Should add the product to customer favorite product list', async () => {
+            const { sut, collection } = makeSut();
+            const data = { name: 'Alison', email: 'alison@provider.com' };
+            const customerId = await insertCustomer(data);
+
+            await sut.addFavoriteProduct(customerId, product.id);
+
+            const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            expect(customer.favoriteProducts).toContainEqual(product.id);
+        });
+
+        test('Should not duplicate product when it already in the favorite list', async () => {
+            const { sut, collection } = makeSut();
+            const data = { name: 'Alison', email: 'alison@provider.com', favoriteProducts: [product.id] };
+            const customerId = await insertCustomer(data);
+
+            await sut.addFavoriteProduct(customerId, product.id);
+
+            const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            expect(customer.favoriteProducts).toEqual([product.id]);
+        });
     });
 });
