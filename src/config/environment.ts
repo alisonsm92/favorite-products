@@ -20,12 +20,17 @@ const node = {
     isTest: process.env.NODE_ENV === 'test',
 };
 
+const axios = {
+    timeout: process.env.AXIOS_TIMEOUT_MS ? parseInt(process.env.AXIOS_TIMEOUT_MS, 10) : 5000,
+};
+
 const env = {
     server,
     mongodb,
     productsApi,
     logger,
     node,
+    axios,
 };
 
 export default env;

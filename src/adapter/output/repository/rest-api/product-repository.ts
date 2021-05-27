@@ -5,7 +5,10 @@ import FindProductRepository from '../../../../core/use-case/add-favorite-produc
 
 export default class ApiProductRepository implements FindProductRepository {
     async findById(id: Product['id']): Promise<Product> {
-        const httpClient = axios.create({ baseURL: env.productsApi.url });
+        const httpClient = axios.create({
+            baseURL: env.productsApi.url,
+            timeout: env.axios.timeout,
+        });
         const { data } = await httpClient.get(`/api/product/${id}/`);
         return data;
     }
