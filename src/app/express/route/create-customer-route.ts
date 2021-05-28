@@ -4,5 +4,5 @@ import makeCreateCustomerController from '../../factory/controller/create-custom
 import adaptRoute from '../adapter/express-route-adapter';
 
 export default (router: Router): void => {
-    router.post('/customers', adaptRoute(makeCreateCustomerController()));
+    router.post('/customer', adaptRoute(makeCreateCustomerController()));
 };

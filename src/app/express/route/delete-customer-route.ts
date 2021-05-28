@@ -3,5 +3,5 @@ import makeDeleteCustomerController from '../../factory/controller/delete-custom
 import adaptRoute from '../adapter/express-route-adapter';
 
 export default (router: Router): void => {
-    router.delete('/customers/:id', adaptRoute(makeDeleteCustomerController()));
+    router.delete('/customer/:id', adaptRoute(makeDeleteCustomerController()));
 };

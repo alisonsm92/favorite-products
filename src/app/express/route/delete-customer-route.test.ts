@@ -28,7 +28,7 @@ describe('Testing DELETE /customers', () => {
     test('Should return 204 when delete the customer with the id provided', async () => {
         const { id } = await mockCustomerRegister();
         await request(app)
-            .delete(`/customers/${id}`)
+            .delete(`/customer/${id}`)
             .expect(204);
     });
 });

@@ -20,7 +20,7 @@ describe('Testing POST /customers', () => {
 
     test('Should return 200 when create a new customer', async () => {
         await request(app)
-            .post('/customers')
+            .post('/customer')
             .send({
                 name: 'Alison',
                 email: 'alison@provider.com',
