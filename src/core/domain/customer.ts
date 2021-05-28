@@ -4,7 +4,7 @@ interface Customer {
     id: string,
     name: string,
     email: string,
-    favoriteProducts?: Product['id'][]
+    favoriteProducts?: Product[]
 }
 
 export default Customer;

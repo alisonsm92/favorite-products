@@ -19,7 +19,7 @@ describe('Testing AddFavoriteProductOnDb', () => {
     };
     type Options = {
         exists: boolean,
-        favoriteProducts? :Product['id'][]
+        favoriteProducts? :Product[]
     }
     const makeFindCustomerRepository = (opt: Options = { exists: true, favoriteProducts: [] })
     : FindCustomerRepository => {
@@ -88,13 +88,12 @@ describe('Testing AddFavoriteProductOnDb', () => {
 
     test('Should return fail when product is already in the favorite list', async () => {
         const customerID = '1';
-        const productID = '1';
         const findCustomerRepository = makeFindCustomerRepository({
             exists: true,
-            favoriteProducts: [productID],
+            favoriteProducts: [product],
         });
         const sut = makeSut({ findCustomerRepository });
-        const result = await sut.execute(customerID, productID);
+        const result = await sut.execute(customerID, product.id);
         expect(result).toEqual(fail(new ValidationError('The product is already in the list of favorites')));
     });
 });

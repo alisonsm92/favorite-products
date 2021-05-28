@@ -116,21 +116,21 @@ describe('Mongodb User repository', () => {
             const data = { name: 'Alison', email: 'alison@provider.com' };
             const customerId = await insertCustomer(data);
 
-            await sut.addFavoriteProduct(customerId, product.id);
+            await sut.addFavoriteProduct(customerId, product);
 
             const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
-            expect(customer.favoriteProducts).toContainEqual(product.id);
+            expect(customer.favoriteProducts).toContainEqual(product);
         });
 
         test('Should not duplicate product when it already in the favorite list', async () => {
             const { sut, collection } = makeSut();
-            const data = { name: 'Alison', email: 'alison@provider.com', favoriteProducts: [product.id] };
+            const data = { name: 'Alison', email: 'alison@provider.com', favoriteProducts: [product] };
             const customerId = await insertCustomer(data);
 
-            await sut.addFavoriteProduct(customerId, product.id);
+            await sut.addFavoriteProduct(customerId, product);
 
             const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
-            expect(customer.favoriteProducts).toEqual([product.id]);
+            expect(customer.favoriteProducts).toEqual([product]);
         });
     });
 });

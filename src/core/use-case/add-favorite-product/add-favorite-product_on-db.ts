@@ -3,6 +3,7 @@ import Customer from '../../domain/customer';
 import Product from '../../domain/product';
 import ValidationError from '../error/validation-error';
 import FindCustomerRepository from '../port/find-customer-repository';
+import isSameId from './helper';
 import AddFavoriteProduct from './port/add-favorite-product';
 import FindProductRepository from './port/find-product-repository';
 import UpdateCustomerRepository from './port/update-customer-repository';
@@ -32,14 +33,14 @@ export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
         if (!customer) {
             return fail(new ValidationError('Customer not found'));
         }
-        if (customer.favoriteProducts && customer.favoriteProducts.includes(productId)) {
+        if (customer.favoriteProducts && customer.favoriteProducts.find(isSameId(productId))) {
             return fail(new ValidationError('The product is already in the list of favorites'));
         }
         const product = await this.findProductRepository.findById(productId);
         if (!product) {
             return fail(new ValidationError('Product not found'));
         }
-        await this.updateCustomerRepository.addFavoriteProduct(customerId, product.id);
+        await this.updateCustomerRepository.addFavoriteProduct(customerId, product);
         return success(product);
     }
 }

@@ -41,9 +41,9 @@ CreateCustomerRepository, DeleteCustomerRepository, UpdateCustomerRepository {
         return !!result.deletedCount;
     }
 
-    async addFavoriteProduct(customerId: Customer['id'], productId: Product['id']): Promise<void> {
+    async addFavoriteProduct(customerId: Customer['id'], product: Product): Promise<void> {
         await this.getCollection().updateOne(
-            { _id: new ObjectID(customerId) }, { $addToSet: { favoriteProducts: productId } },
+            { _id: new ObjectID(customerId) }, { $addToSet: { favoriteProducts: product } },
         );
     }
 }
