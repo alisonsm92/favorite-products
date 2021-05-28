@@ -17,6 +17,9 @@ const MongoHelper = {
     getCollection(name: string): Collection {
         return this.client.db().collection(name);
     },
+    async createIndex(collection: string, index: unknown): Promise<void> {
+        await this.getCollection(collection).createIndex(index);
+    },
 };
 
 export default MongoHelper;
