@@ -6,12 +6,13 @@ import FindProductRepository from '../../../../core/use-case/add-favorite-produc
 export interface ResponseBody extends Product { brand: string }
 
 export default class ApiProductRepository implements FindProductRepository {
-    async findById(id: Product['id']): Promise<Product> {
+    async findById(id: Product['id']): Promise<Product|null> {
         const httpClient = axios.create({
             baseURL: env.productsApi.url,
             timeout: env.axios.timeout,
         });
         const { data } = await httpClient.get(`/api/product/${id}/`);
+        if (!data) return null;
         return ApiProductRepository.formatPayload(data);
     }
 
