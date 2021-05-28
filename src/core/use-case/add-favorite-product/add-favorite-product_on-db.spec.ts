@@ -13,7 +13,6 @@ describe('Testing AddFavoriteProductOnDb', () => {
     const product: Product = {
         price: 100.0,
         image: 'https://fake-products-api.com/images/uuid.jpg',
-        brand: 'The best',
         id: '1',
         title: 'Favorite product',
     };
