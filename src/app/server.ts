@@ -2,7 +2,7 @@ import MongoHelper from '../adapter/output/repository/mongodb/helper/mongodb-hel
 import env from '../config/environment';
 import logger from './express/logger/pino';
 
-MongoHelper.connect(env.mongodb.uri)
+MongoHelper.initialize(env.mongodb.uri)
     .then(async () => {
         logger.debug('MongoDB: connected');
         const app = (await import('./express/app')).default;

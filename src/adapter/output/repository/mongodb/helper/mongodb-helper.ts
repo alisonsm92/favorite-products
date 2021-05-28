@@ -20,6 +20,10 @@ const MongoHelper = {
     async createIndex(collection: string, index: unknown): Promise<void> {
         await this.getCollection(collection).createIndex(index);
     },
+    async initialize(uri: string) : Promise<void> {
+        await this.connect(uri);
+        await MongoHelper.createIndex('customer', { email: 1 });
+    },
 };
 
 export default MongoHelper;
