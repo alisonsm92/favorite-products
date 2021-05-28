@@ -22,7 +22,7 @@ const MongoHelper = {
     },
     async initialize(uri: string) : Promise<void> {
         await this.connect(uri);
-        await MongoHelper.createIndex('customer', { email: 1 });
+        await MongoHelper.createIndex('customers', { email: 1 });
     },
 };
 
