@@ -2,9 +2,9 @@ import pino from 'pino';
 import env from '../../../config/environment';
 
 const logger = pino({
-    enabled: !env.isTest,
+    enabled: !env.node.isTest,
     level: env.logger.level,
-    prettyPrint: env.isDevelopment || env.logger.prettyPrint,
+    prettyPrint: env.node.isDevelopment || env.logger.prettyPrint,
 });
 
 export default logger;
