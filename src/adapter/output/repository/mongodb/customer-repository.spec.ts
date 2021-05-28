@@ -79,6 +79,25 @@ describe('Mongodb User repository', () => {
             });
     });
 
+    describe('FindById method', () => {
+        test('Should return the register when there are a customer with the id provided',
+            async () => {
+                const data = { name: 'Alison', email: 'alison@provider.com' };
+                const id = await insertCustomer({ ...data });
+                const { sut } = makeSut();
+                const result = await sut.findById(id);
+                expect(result).toEqual({ id, ...data });
+            });
+
+        test('Should return null when there are none customer register with the id provided',
+            async () => {
+                const nonExistentId = (new ObjectID()).toHexString();
+                const { sut } = makeSut();
+                const result = await sut.findById(nonExistentId);
+                expect(result).toBeNull();
+            });
+    });
+
     describe('Delete method', () => {
         test('Should no exist the register on DB after delete',
             async () => {
