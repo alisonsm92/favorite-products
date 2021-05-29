@@ -6,7 +6,7 @@ import ValidationError from '../error/validation-error';
 import FindCustomerRepository from '../port/find-customer-repository';
 import AddFavoriteProductOnDb from './add-favorite-product-on-db';
 import FindProductRepository from './port/find-product-repository';
-import UpdateCustomerRepository from './port/update-customer-repository';
+import AddFavoriteProductRepository from './port/add-favorite-product-repository';
 
 describe('Testing AddFavoriteProductOnDb', () => {
     const customer: Customer = { id: '1', name: 'Alison', email: 'alison@provider.com' };
@@ -41,22 +41,22 @@ describe('Testing AddFavoriteProductOnDb', () => {
         }
         return new FindProductRepositoryStub();
     };
-    const makeUpdateCustomerRepository = (): UpdateCustomerRepository => {
-        class UpdateCustomerRepositoryStub implements UpdateCustomerRepository {
-            async addFavoriteProduct(): Promise<void> {
+    const makeAddFavoriteProductRepository = (): AddFavoriteProductRepository => {
+        class AddFavoriteProductRepositoryStub implements AddFavoriteProductRepository {
+            async add(): Promise<void> {
                 return Promise.resolve();
             }
         }
-        return new UpdateCustomerRepositoryStub();
+        return new AddFavoriteProductRepositoryStub();
     };
     const makeSut = ({
         findCustomerRepository = makeFindCustomerRepository(),
         findProductRepository = makeFindProductRepository(),
-        updateCustomerRepository = makeUpdateCustomerRepository(),
+        addFavoriteProductRepository = makeAddFavoriteProductRepository(),
     }) => (new AddFavoriteProductOnDb({
         findCustomerRepository,
         findProductRepository,
-        updateCustomerRepository,
+        addFavoriteProductRepository,
     }));
 
     test('Should add favorite product with success', async () => {

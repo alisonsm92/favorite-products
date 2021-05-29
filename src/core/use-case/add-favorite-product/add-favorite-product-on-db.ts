@@ -6,12 +6,12 @@ import FindCustomerRepository from '../port/find-customer-repository';
 import isSameId from './helper/add-favorite-product-helper';
 import AddFavoriteProduct from './port/add-favorite-product';
 import FindProductRepository from './port/find-product-repository';
-import UpdateCustomerRepository from './port/update-customer-repository';
+import AddFavoriteProductRepository from './port/add-favorite-product-repository';
 
 type Dependencies = {
     findProductRepository: FindProductRepository,
-    updateCustomerRepository: UpdateCustomerRepository
-    findCustomerRepository: FindCustomerRepository
+    findCustomerRepository: FindCustomerRepository,
+    addFavoriteProductRepository: AddFavoriteProductRepository
 }
 type Result = Promise<Either<ValidationError, Product>>
 
@@ -20,12 +20,12 @@ export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
 
     private readonly findProductRepository: FindProductRepository;
 
-    private readonly updateCustomerRepository: UpdateCustomerRepository;
+    private readonly addFavoriteProductRepository: AddFavoriteProductRepository;
 
-    constructor({ findCustomerRepository, findProductRepository, updateCustomerRepository }: Dependencies) {
+    constructor({ findCustomerRepository, findProductRepository, addFavoriteProductRepository }: Dependencies) {
         this.findCustomerRepository = findCustomerRepository;
         this.findProductRepository = findProductRepository;
-        this.updateCustomerRepository = updateCustomerRepository;
+        this.addFavoriteProductRepository = addFavoriteProductRepository;
     }
 
     async execute(customerId: Customer['id'], productId: Product['id']): Result {
@@ -40,7 +40,7 @@ export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
         if (!product) {
             return fail(new ValidationError('Product not found'));
         }
-        await this.updateCustomerRepository.addFavoriteProduct(customerId, product);
+        await this.addFavoriteProductRepository.add(customerId, product);
         return success(product);
     }
 }

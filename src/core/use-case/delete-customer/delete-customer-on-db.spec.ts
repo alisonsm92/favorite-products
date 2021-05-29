@@ -1,13 +1,12 @@
 import { fail, success } from '../../../common/either';
 import NotFoundError from '../error/not-found-error';
 import DeleteCustomerOnDb from './delete-customer-on-db';
-import DeleteCustomerParams from './port/delete-customer-params';
 import DeleteCustomerRepository from './port/delete-customer-repository';
 
 describe('Testing delete customer on db use case', () => {
     const makeDeleteCustomerRepository = (opt = { exists: false }): DeleteCustomerRepository => {
         class DeleteCustomerRepositoryStub implements DeleteCustomerRepository {
-            async delete(id: DeleteCustomerParams['id']): Promise<boolean> {
+            async delete(): Promise<boolean> {
                 return Promise.resolve(!opt.exists);
             }
         }

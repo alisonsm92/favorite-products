@@ -1,7 +1,5 @@
 import { Collection, ObjectID } from 'mongodb';
 import Customer from '../../../../core/domain/customer';
-import Product from '../../../../core/domain/product';
-import UpdateCustomerRepository from '../../../../core/use-case/add-favorite-product/port/update-customer-repository';
 import CreateCustomerParams from '../../../../core/use-case/create-customer/port/create-customer-params';
 import CreateCustomerRepository from '../../../../core/use-case/create-customer/port/create-customer-repository';
 import DeleteCustomerRepository from '../../../../core/use-case/delete-customer/port/delete-customer-repository';
@@ -11,7 +9,7 @@ import MongoHelper from './helper/mongodb-helper';
 interface CustomerRegister extends Omit<Customer, 'id'> { _id: ObjectID }
 
 export default class MongoCustomerRepository implements
-CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository, UpdateCustomerRepository {
+CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository {
     private getCollection(): Collection<CustomerRegister> {
         return MongoHelper.getCollection('customers');
     }
@@ -46,20 +44,5 @@ CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository, Upda
     async delete(id: Customer['id']): Promise<boolean> {
         const result = await this.getCollection().deleteOne({ _id: new ObjectID(id) });
         return !!result.deletedCount;
-    }
-
-    async addFavoriteProduct(customerId: Customer['id'], product: Product): Promise<void> {
-        await this.getCollection().updateOne(
-            { _id: new ObjectID(customerId) }, { $addToSet: { favoriteProducts: product } },
-        );
-    }
-
-    async findFavoriteProduct(customerId: Customer['id']): Promise<Product[]|null> {
-        const filter = { _id: new ObjectID(customerId) };
-        const options = { projection: { favoriteProducts: 1 } };
-        const customer = await this.getCollection().findOne(filter, options);
-        if (!customer) return null;
-        if (!customer.favoriteProducts) return [];
-        return customer.favoriteProducts;
     }
 }
