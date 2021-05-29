@@ -4,6 +4,17 @@ import env from '../../../../config/environment';
 import MongoCustomerRepository from './customer-repository';
 import Customer from '../../../../core/domain/customer';
 
+function makeSut() {
+    const collection = MongoHelper.getCollection('customers');
+    const sut = new MongoCustomerRepository();
+    return { sut, collection };
+}
+
+async function insertCustomer(data:Omit<Customer, 'id'>) {
+    const { insertedId } = await MongoHelper.getCollection('customers').insertOne(data);
+    return insertedId.toString();
+}
+
 describe('Mongodb User repository', () => {
     beforeAll(async () => {
         await MongoHelper.initialize(env.mongodb.uri);
@@ -17,18 +28,6 @@ describe('Mongodb User repository', () => {
         const customerCollection = MongoHelper.getCollection('customers');
         await customerCollection.deleteMany({});
     });
-
-    function makeSut() {
-        const collection = MongoHelper.getCollection('customers');
-        const sut = new MongoCustomerRepository();
-
-        return { sut, collection };
-    }
-
-    async function insertCustomer(data:Omit<Customer, 'id'>) {
-        const { insertedId } = await MongoHelper.getCollection('customers').insertOne(data);
-        return insertedId.toString();
-    }
 
     describe('Create method', () => {
         test('Should persists the customer in the MongoDB', async () => {

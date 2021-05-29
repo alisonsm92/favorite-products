@@ -3,19 +3,20 @@ import NotFoundError from '../error/not-found-error';
 import DeleteCustomerOnDb from './delete-customer-on-db';
 import DeleteCustomerRepository from './port/delete-customer-repository';
 
-describe('Testing delete customer on db use case', () => {
-    const makeDeleteCustomerRepository = (opt = { exists: false }): DeleteCustomerRepository => {
-        class DeleteCustomerRepositoryStub implements DeleteCustomerRepository {
-            async delete(): Promise<boolean> {
-                return Promise.resolve(!opt.exists);
-            }
+function makeDeleteCustomerRepository(opt = { exists: false }): DeleteCustomerRepository {
+    class DeleteCustomerRepositoryStub implements DeleteCustomerRepository {
+        async delete(): Promise<boolean> {
+            return Promise.resolve(!opt.exists);
         }
-        return new DeleteCustomerRepositoryStub();
-    };
-    const makeSut = (deleteCustomerRepository: DeleteCustomerRepository): DeleteCustomerOnDb => (
-        new DeleteCustomerOnDb({ deleteCustomerRepository })
-    );
+    }
+    return new DeleteCustomerRepositoryStub();
+}
 
+function makeSut(deleteCustomerRepository: DeleteCustomerRepository): DeleteCustomerOnDb {
+    return new DeleteCustomerOnDb({ deleteCustomerRepository });
+}
+
+describe('Testing delete customer on db use case', () => {
     test('Should return success when the id provided exists', async () => {
         const nonExistentID = 'nonExistentID';
         const deleteCustomerRepository = makeDeleteCustomerRepository({ exists: false });

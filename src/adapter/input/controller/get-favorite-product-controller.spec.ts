@@ -14,7 +14,8 @@ const product: Product = {
     id: '1',
     title: 'Favorite product',
 };
-const makeGetFavoriteProducts = (result?: Result): GetFavoriteProducts => {
+
+function makeGetFavoriteProducts(result?: Result): GetFavoriteProducts {
     class GetFavoriteProductOnDbStub implements GetFavoriteProducts {
         async execute(): Promise<Result> {
             if (!result) return Promise.reject();
@@ -22,14 +23,16 @@ const makeGetFavoriteProducts = (result?: Result): GetFavoriteProducts => {
         }
     }
     return new GetFavoriteProductOnDbStub();
-};
+}
+
 const makeGetFavoriteProductsSuccess = () => makeGetFavoriteProducts(success([product]));
 const makeGetFavoriteProductsFailure = (error: Error) => makeGetFavoriteProducts(fail(error));
 const makeGetFavoriteProductsThrowError = () => makeGetFavoriteProducts();
-const makeSut = (injectedGetFavoriteProduct?: GetFavoriteProducts): GetFavoriteProductController => {
+
+function makeSut(injectedGetFavoriteProduct?: GetFavoriteProducts): GetFavoriteProductController {
     const getFavoriteProduct = injectedGetFavoriteProduct || makeGetFavoriteProductsSuccess();
     return new GetFavoriteProductController(getFavoriteProduct);
-};
+}
 
 describe('Testing GetFavoriteProductController', () => {
     test('Should return http response ok when gets the favorite products successfully',

@@ -6,31 +6,31 @@ import { ResponseBody } from '../../../adapter/output/repository/rest-api/produc
 import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongodb-helper';
 import Customer from '../../../core/domain/customer';
 
+const productId = '1';
+const responseBody: ResponseBody = {
+    price: 100.0,
+    image: 'https://fake-products-api.com/images/uuid.jpg',
+    brand: 'The best',
+    id: productId,
+    title: 'Favorite product',
+    reviewScore: 5.0,
+};
+
+function mockProductApi(id: string) {
+    env.productsApi.url = 'https://fake-products-api.com';
+    nock(env.productsApi.url)
+        .get(`/api/product/${id}/`)
+        .reply(200, responseBody);
+}
+
+async function insertCustomerRegister(): Promise<Customer['id']> {
+    const customerData = { name: 'Alison', email: 'alison@provider.com' };
+    const customerCollection = MongoHelper.getCollection('customers');
+    const { insertedId } = await customerCollection.insertOne({ ...customerData });
+    return insertedId.toString();
+}
+
 describe('Testing POST /customer/:customerId/favorite-product/:productId', () => {
-    const productId = '1';
-    const responseBody: ResponseBody = {
-        price: 100.0,
-        image: 'https://fake-products-api.com/images/uuid.jpg',
-        brand: 'The best',
-        id: '1',
-        title: 'Favorite product',
-        reviewScore: 5.0,
-    };
-
-    function mockProductApi(id: string) {
-        env.productsApi.url = 'https://fake-products-api.com';
-        nock(env.productsApi.url)
-            .get(`/api/product/${id}/`)
-            .reply(200, responseBody);
-    }
-
-    async function insertCustomerRegister(): Promise<Customer['id']> {
-        const customerData = { name: 'Alison', email: 'alison@provider.com' };
-        const customerCollection = MongoHelper.getCollection('customers');
-        const { insertedId } = await customerCollection.insertOne({ ...customerData });
-        return insertedId.toString();
-    }
-
     beforeAll(async () => {
         mockProductApi(productId);
         await MongoHelper.initialize(env.mongodb.uri);

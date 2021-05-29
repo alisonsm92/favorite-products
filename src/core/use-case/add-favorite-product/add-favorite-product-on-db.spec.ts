@@ -8,57 +8,61 @@ import AddFavoriteProductOnDb from './add-favorite-product-on-db';
 import FindProductRepository from './port/find-product-repository';
 import AddFavoriteProductRepository from './port/add-favorite-product-repository';
 
-describe('Testing AddFavoriteProductOnDb', () => {
-    const customer: Customer = { id: '1', name: 'Alison', email: 'alison@provider.com' };
-    const product: Product = {
-        price: 100.0,
-        image: 'https://fake-products-api.com/images/uuid.jpg',
-        id: '1',
-        title: 'Favorite product',
-    };
-    type Options = {
-        exists: boolean,
-        favoriteProducts? :Product[]
+type Options = { exists: boolean, favoriteProducts? :Product[] }
+
+const customer: Customer = { id: '1', name: 'Alison', email: 'alison@provider.com' };
+const product: Product = {
+    price: 100.0,
+    image: 'https://fake-products-api.com/images/uuid.jpg',
+    id: '1',
+    title: 'Favorite product',
+};
+
+function makeFindCustomerRepository(opt: Options = { exists: true, favoriteProducts: [] })
+    : FindCustomerRepository {
+    class FindCustomerRepositoryStub implements FindCustomerRepository {
+        async findById(): Promise<Customer|null> {
+            if (opt.exists) {
+                return Promise.resolve({ ...customer, favoriteProducts: opt.favoriteProducts });
+            }
+            return Promise.resolve(null);
+        }
     }
-    const makeFindCustomerRepository = (opt: Options = { exists: true, favoriteProducts: [] })
-    : FindCustomerRepository => {
-        class FindCustomerRepositoryStub implements FindCustomerRepository {
-            async findById(): Promise<Customer|null> {
-                if (opt.exists) {
-                    return Promise.resolve({ ...customer, favoriteProducts: opt.favoriteProducts });
-                }
-                return Promise.resolve(null);
-            }
+    return new FindCustomerRepositoryStub();
+}
+
+function makeFindProductRepository(opt: Options = { exists: true }): FindProductRepository {
+    class FindProductRepositoryStub implements FindProductRepository {
+        async findById(): Promise<Product|null> {
+            if (opt.exists) return Promise.resolve(product);
+            return Promise.resolve(null);
         }
-        return new FindCustomerRepositoryStub();
-    };
-    const makeFindProductRepository = (opt: Options = { exists: true }): FindProductRepository => {
-        class FindProductRepositoryStub implements FindProductRepository {
-            async findById(): Promise<Product|null> {
-                if (opt.exists) return Promise.resolve(product);
-                return Promise.resolve(null);
-            }
+    }
+    return new FindProductRepositoryStub();
+}
+
+function makeAddFavoriteProductRepository(): AddFavoriteProductRepository {
+    class AddFavoriteProductRepositoryStub implements AddFavoriteProductRepository {
+        async add(): Promise<void> {
+            return Promise.resolve();
         }
-        return new FindProductRepositoryStub();
-    };
-    const makeAddFavoriteProductRepository = (): AddFavoriteProductRepository => {
-        class AddFavoriteProductRepositoryStub implements AddFavoriteProductRepository {
-            async add(): Promise<void> {
-                return Promise.resolve();
-            }
-        }
-        return new AddFavoriteProductRepositoryStub();
-    };
-    const makeSut = ({
-        findCustomerRepository = makeFindCustomerRepository(),
-        findProductRepository = makeFindProductRepository(),
-        addFavoriteProductRepository = makeAddFavoriteProductRepository(),
-    }) => (new AddFavoriteProductOnDb({
+    }
+    return new AddFavoriteProductRepositoryStub();
+}
+
+function makeSut({
+    findCustomerRepository = makeFindCustomerRepository(),
+    findProductRepository = makeFindProductRepository(),
+    addFavoriteProductRepository = makeAddFavoriteProductRepository(),
+}) {
+    return new AddFavoriteProductOnDb({
         findCustomerRepository,
         findProductRepository,
         addFavoriteProductRepository,
-    }));
+    });
+}
 
+describe('Testing AddFavoriteProductOnDb', () => {
     test('Should add favorite product with success', async () => {
         const customerID = '1';
         const productID = '1';

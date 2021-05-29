@@ -16,11 +16,11 @@ const customerData: Omit<Customer, 'id'> = {
     }],
 };
 
-const insertCustomerRegister = async (): Promise<Customer['id']> => {
+async function insertCustomerRegister(): Promise<Customer['id']> {
     const customerCollection = MongoHelper.getCollection('customers');
     const { insertedId } = await customerCollection.insertOne({ ...customerData });
     return insertedId.toString();
-};
+}
 
 describe('Testing POST /customer/:customerId/favorite-product/:productId', () => {
     beforeAll(async () => {

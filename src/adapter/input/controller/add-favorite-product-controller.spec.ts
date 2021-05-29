@@ -8,30 +8,33 @@ import AddFavoriteProductController from './add-favorite-product-controller';
 
 type Result = Either<ValidationError, Product>
 
-describe('Testing AddFavoriteProductController', () => {
-    const product: Product = {
-        price: 100.0,
-        image: 'https://fake-products-api.com/images/uuid.jpg',
-        id: '1',
-        title: 'Favorite product',
-    };
-    const makeAddFavoriteProduct = (result?: Result): AddFavoriteProduct => {
-        class AddFavoriteProductOnDbStub implements AddFavoriteProduct {
-            async execute(): Promise<Result> {
-                if (!result) return Promise.reject();
-                return Promise.resolve(result);
-            }
-        }
-        return new AddFavoriteProductOnDbStub();
-    };
-    const makeAddFavoriteProductSuccess = () => makeAddFavoriteProduct(success(product));
-    const makeAddFavoriteProductFailure = (error: Error) => makeAddFavoriteProduct(fail(error));
-    const makeAddFavoriteProductThrowError = () => makeAddFavoriteProduct();
-    const makeSut = (injectedAddFavoriteProduct?: AddFavoriteProduct): AddFavoriteProductController => {
-        const addFavoriteProduct = injectedAddFavoriteProduct || makeAddFavoriteProductSuccess();
-        return new AddFavoriteProductController({ addFavoriteProduct });
-    };
+const product: Product = {
+    price: 100.0,
+    image: 'https://fake-products-api.com/images/uuid.jpg',
+    id: '1',
+    title: 'Favorite product',
+};
 
+function makeAddFavoriteProduct(result?: Result): AddFavoriteProduct {
+    class AddFavoriteProductOnDbStub implements AddFavoriteProduct {
+        async execute(): Promise<Result> {
+            if (!result) return Promise.reject();
+            return Promise.resolve(result);
+        }
+    }
+    return new AddFavoriteProductOnDbStub();
+}
+
+const makeAddFavoriteProductSuccess = () => makeAddFavoriteProduct(success(product));
+const makeAddFavoriteProductFailure = (error: Error) => makeAddFavoriteProduct(fail(error));
+const makeAddFavoriteProductThrowError = () => makeAddFavoriteProduct();
+
+function makeSut(injectedAddFavoriteProduct?: AddFavoriteProduct): AddFavoriteProductController {
+    const addFavoriteProduct = injectedAddFavoriteProduct || makeAddFavoriteProductSuccess();
+    return new AddFavoriteProductController({ addFavoriteProduct });
+}
+
+describe('Testing AddFavoriteProductController', () => {
     test('Should return http response ok when adds the product successfully', async () => {
         const params: AddFavoriteProductParams = { customerId: '1', productId: '1' };
         const httpRequest: HttpRequest = { params, body: null };

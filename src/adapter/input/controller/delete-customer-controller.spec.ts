@@ -2,29 +2,32 @@
 import { Either, success, fail } from '../../../common/either';
 import DeleteCustomer from '../../../core/use-case/delete-customer/port/delete-customer';
 import NotFoundError from '../../../core/use-case/error/not-found-error';
+import { HttpRequest } from '../port/http';
 import DeleteCustomerController from './delete-customer-controller';
 
 type Result = Either<NotFoundError, void>
 
-describe('Testing DeleteCustomerController', () => {
-    const makeDeleteCustomer = (result?: Result): DeleteCustomer => {
-        class DeleteCustomerOnDbStub implements DeleteCustomer {
-            async execute(): Promise<Result> {
-                if (!result) return Promise.reject();
-                return Promise.resolve(result);
-            }
+function makeDeleteCustomer(result?: Result): DeleteCustomer {
+    class DeleteCustomerOnDbStub implements DeleteCustomer {
+        async execute(): Promise<Result> {
+            if (!result) return Promise.reject();
+            return Promise.resolve(result);
         }
-        return new DeleteCustomerOnDbStub();
-    };
-    const makeDeleteCustomerSuccess = () => makeDeleteCustomer(success());
-    const makeDeleteCustomerFailure = (error: Error) => makeDeleteCustomer(fail(error));
-    const makeDeleteCustomerThrowError = () => makeDeleteCustomer();
-    const makeSut = (deleteCustomer :DeleteCustomer): DeleteCustomerController => (
-        new DeleteCustomerController({ deleteCustomer })
-    );
+    }
+    return new DeleteCustomerOnDbStub();
+}
 
+const makeDeleteCustomerSuccess = () => makeDeleteCustomer(success());
+const makeDeleteCustomerFailure = (error: Error) => makeDeleteCustomer(fail(error));
+const makeDeleteCustomerThrowError = () => makeDeleteCustomer();
+
+function makeSut(deleteCustomer :DeleteCustomer): DeleteCustomerController {
+    return new DeleteCustomerController({ deleteCustomer });
+}
+
+describe('Testing DeleteCustomerController', () => {
     test('Should return http response ok when deletes the customer successfully', async () => {
-        const httpRequest = { params: { id: 'id' }, body: null };
+        const httpRequest: HttpRequest = { params: { id: 'id' }, body: null };
         const createCustomer = makeDeleteCustomerSuccess();
         const sut = makeSut(createCustomer);
 
@@ -35,7 +38,7 @@ describe('Testing DeleteCustomerController', () => {
     });
 
     test('Should return http response not found when delete customer usa case fails', async () => {
-        const httpRequest = { params: { id: 'id' }, body: null };
+        const httpRequest: HttpRequest = { params: { id: 'id' }, body: null };
         const error = new NotFoundError('customer');
         const createCustomer = makeDeleteCustomerFailure(error);
         const sut = makeSut(createCustomer);
@@ -48,7 +51,7 @@ describe('Testing DeleteCustomerController', () => {
 
     test('Should return http response server error when delete customer usa case throws an error',
         async () => {
-            const httpRequest = { params: { id: 'id' }, body: null };
+            const httpRequest: HttpRequest = { params: { id: 'id' }, body: null };
             const createCustomer = makeDeleteCustomerThrowError();
             const sut = makeSut(createCustomer);
 
