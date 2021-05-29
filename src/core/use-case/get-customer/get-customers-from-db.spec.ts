@@ -5,10 +5,18 @@ import ValidationError from '../error/validation-error';
 import FindCustomerRepository from '../port/find-customer-repository';
 import GetCustomerFromDB from './get-customers-from-db';
 
-const customer = {
+const customer: Customer = {
     id: (new ObjectID()).toHexString(),
     name: 'Alison',
     email: 'alison@provider.com',
+    favoriteProducts: [
+        {
+            price: 100.0,
+            image: 'https://fake-products-api.com/images/uuid.jpg',
+            id: '1',
+            title: 'Favorite product',
+        },
+    ],
 };
 
 function makeFindFavoriteProductRepository(opt = { exists: true }): FindCustomerRepository {
