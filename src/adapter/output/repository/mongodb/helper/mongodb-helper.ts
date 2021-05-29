@@ -1,29 +1,32 @@
 import { MongoClient, Collection, MongoClientOptions } from 'mongodb';
 import env from '../../../../../config/environment';
 
-const MongoHelper = {
-    client: null as unknown as MongoClient,
-    async connect(uri: string): Promise<void> {
+export default class MongoHelper {
+    private static client = null as unknown as MongoClient;
+
+    static async connect(uri: string): Promise<void> {
         const options:MongoClientOptions = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             serverSelectionTimeoutMS: env.mongodb.timeoutMS,
         };
-        this.client = await MongoClient.connect(uri, options);
-    },
-    async disconnect(): Promise<void> {
-        this.client.close();
-    },
-    getCollection(name: string): Collection {
-        return this.client.db().collection(name);
-    },
-    async createIndex(collection: string, index: unknown): Promise<void> {
-        await this.getCollection(collection).createIndex(index);
-    },
-    async initialize(uri: string) : Promise<void> {
-        await this.connect(uri);
-        await MongoHelper.createIndex('customers', { email: 1 });
-    },
-};
+        MongoHelper.client = await MongoClient.connect(uri, options);
+    }
 
-export default MongoHelper;
+    static async disconnect(): Promise<void> {
+        MongoHelper.client.close();
+    }
+
+    static getCollection(name: string): Collection {
+        return MongoHelper.client.db().collection(name);
+    }
+
+    static async createIndex(collection: string, index: unknown): Promise<void> {
+        await MongoHelper.getCollection(collection).createIndex(index);
+    }
+
+    static async initialize(uri: string) : Promise<void> {
+        await MongoHelper.connect(uri);
+        await MongoHelper.createIndex('customers', { email: 1 });
+    }
+}
