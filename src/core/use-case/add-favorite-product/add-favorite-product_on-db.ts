@@ -3,7 +3,7 @@ import Customer from '../../domain/customer';
 import Product from '../../domain/product';
 import ValidationError from '../error/validation-error';
 import FindCustomerRepository from '../port/find-customer-repository';
-import isSameId from './helper';
+import isSameId from './helper/add-favorite-product-helper';
 import AddFavoriteProduct from './port/add-favorite-product';
 import FindProductRepository from './port/find-product-repository';
 import UpdateCustomerRepository from './port/update-customer-repository';
