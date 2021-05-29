@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import makeDeleteCustomerController from '../../factory/controller/delete-customer-controller-factory';
-import adaptRoute from '../adapter/express-route-adapter';
+import ExpressHelper from '../helper/express-route-helper';
 
 export default (router: Router): void => {
-    router.delete('/customer/:id', adaptRoute(makeDeleteCustomerController()));
+    router.delete('/customer/:id', ExpressHelper.adaptRoute(makeDeleteCustomerController()));
 };
