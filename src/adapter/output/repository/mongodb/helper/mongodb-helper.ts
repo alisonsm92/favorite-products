@@ -4,13 +4,14 @@ import env from '../../../../../config/environment';
 export default class MongoHelper {
     private static client = null as unknown as MongoClient;
 
+    private static options: MongoClientOptions = {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: env.mongodb.timeoutMS,
+    };
+
     static async connect(uri: string): Promise<void> {
-        const options:MongoClientOptions = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            serverSelectionTimeoutMS: env.mongodb.timeoutMS,
-        };
-        MongoHelper.client = await MongoClient.connect(uri, options);
+        MongoHelper.client = await MongoClient.connect(uri, MongoHelper.options);
     }
 
     static async disconnect(): Promise<void> {
