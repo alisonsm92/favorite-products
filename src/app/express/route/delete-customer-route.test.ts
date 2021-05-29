@@ -6,7 +6,7 @@ import app from '../app';
 
 describe('Testing DELETE /customer', () => {
     beforeAll(async () => {
-        await MongoHelper.connect(env.mongodb.uri);
+        await MongoHelper.initialize(env.mongodb.uri);
     });
 
     afterAll(async () => {

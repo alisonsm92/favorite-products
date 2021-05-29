@@ -6,7 +6,7 @@ import Customer from '../../../../core/domain/customer';
 
 describe('Mongodb User repository', () => {
     beforeAll(async () => {
-        await MongoHelper.connect(env.mongodb.uri);
+        await MongoHelper.initialize(env.mongodb.uri);
     });
 
     afterAll(async () => {
