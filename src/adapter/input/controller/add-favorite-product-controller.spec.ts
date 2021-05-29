@@ -43,7 +43,7 @@ describe('Testing AddFavoriteProductController', () => {
         expect(httpResponse.body).toBe(product);
     });
 
-    test('Should return http response bad request when fail to add favorite product', async () => {
+    test('Should return http response not found when fail to add favorite product', async () => {
         const params: AddFavoriteProductParams = { customerId: '1', productId: '1' };
         const httpRequest: HttpRequest = { params, body: null };
         const error = new ValidationError('Error message');
@@ -52,7 +52,7 @@ describe('Testing AddFavoriteProductController', () => {
 
         const httpResponse = await sut.handle(httpRequest);
 
-        expect(httpResponse.statusCode).toBe(400);
+        expect(httpResponse.statusCode).toBe(404);
         expect(httpResponse.body).toEqual({ error: { message: error.message } });
     });
 

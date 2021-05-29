@@ -1,6 +1,6 @@
 import GetFavoriteProducts from '../../../core/use-case/get-favorite-products/port/get-favorite-products';
 import GetFavoriteProductParams from '../../../core/use-case/get-favorite-products/port/get-favorite-products.params';
-import { badRequest, ok, serverError } from '../helper/http-helper';
+import { notFound, ok, serverError } from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
 
@@ -16,7 +16,7 @@ export default class GetFavoriteProductController implements Controller {
             const { customerId } = request.params as GetFavoriteProductParams;
             const result = await this.getFavoriteProducts.execute(customerId);
             if (result.isFailure()) {
-                return badRequest(result.error);
+                return notFound(result.error);
             }
             return ok(result.value);
         } catch (error) {

@@ -32,39 +32,42 @@ const makeSut = (injectedGetFavoriteProduct?: GetFavoriteProducts): GetFavoriteP
 };
 
 describe('Testing GetFavoriteProductController', () => {
-    test('Should return http response ok when gets the favorite products successfully', async () => {
-        const params: GetFavoriteProductParams = { customerId: '1' };
-        const httpRequest: HttpRequest = { params, body: null };
-        const sut = makeSut();
+    test('Should return http response ok when gets the favorite products successfully',
+        async () => {
+            const params: GetFavoriteProductParams = { customerId: '1' };
+            const httpRequest: HttpRequest = { params, body: null };
+            const sut = makeSut();
 
-        const httpResponse = await sut.handle(httpRequest);
+            const httpResponse = await sut.handle(httpRequest);
 
-        expect(httpResponse.statusCode).toBe(200);
-        expect(httpResponse.body).toEqual([product]);
-    });
+            expect(httpResponse.statusCode).toBe(200);
+            expect(httpResponse.body).toEqual([product]);
+        });
 
-    test('Should return http response bad request when fail to get favorite products', async () => {
-        const params: GetFavoriteProductParams = { customerId: '1' };
-        const httpRequest: HttpRequest = { params, body: null };
-        const error = new ValidationError('Error message');
-        const addFavoriteProduct = makeGetFavoriteProductsFailure(error);
-        const sut = makeSut(addFavoriteProduct);
+    test('Should return http response not found request when fail to get favorite products',
+        async () => {
+            const params: GetFavoriteProductParams = { customerId: '1' };
+            const httpRequest: HttpRequest = { params, body: null };
+            const error = new ValidationError('Error message');
+            const addFavoriteProduct = makeGetFavoriteProductsFailure(error);
+            const sut = makeSut(addFavoriteProduct);
 
-        const httpResponse = await sut.handle(httpRequest);
+            const httpResponse = await sut.handle(httpRequest);
 
-        expect(httpResponse.statusCode).toBe(400);
-        expect(httpResponse.body).toEqual({ error: { message: error.message } });
-    });
+            expect(httpResponse.statusCode).toBe(404);
+            expect(httpResponse.body).toEqual({ error: { message: error.message } });
+        });
 
-    test('Should return http response server error when throw an error in the use case', async () => {
-        const params: GetFavoriteProductParams = { customerId: '1' };
-        const httpRequest: HttpRequest = { params, body: null };
-        const addFavoriteProduct = makeGetFavoriteProductsThrowError();
-        const sut = makeSut(addFavoriteProduct);
+    test('Should return http response server error when throw an error in the use case',
+        async () => {
+            const params: GetFavoriteProductParams = { customerId: '1' };
+            const httpRequest: HttpRequest = { params, body: null };
+            const addFavoriteProduct = makeGetFavoriteProductsThrowError();
+            const sut = makeSut(addFavoriteProduct);
 
-        const httpResponse = await sut.handle(httpRequest);
+            const httpResponse = await sut.handle(httpRequest);
 
-        expect(httpResponse.statusCode).toBe(500);
-        expect(httpResponse.body).toEqual({ error: { message: 'Internal server error' } });
-    });
+            expect(httpResponse.statusCode).toBe(500);
+            expect(httpResponse.body).toEqual({ error: { message: 'Internal server error' } });
+        });
 });
