@@ -2,7 +2,7 @@ import AddFavoriteProductController from '../../../adapter/input/controller/add-
 import Controller from '../../../adapter/input/port/controller';
 import MongoCustomerRepository from '../../../adapter/output/repository/mongodb/customer-repository';
 import ApiProductRepository from '../../../adapter/output/repository/rest-api/product-repository';
-import AddFavoriteProductOnDb from '../../../core/use-case/add-favorite-product/add-favorite-product_on-db';
+import AddFavoriteProductOnDb from '../../../core/use-case/add-favorite-product/add-favorite-product-on-db';
 
 export default function makeAddFavoriteProductController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
