@@ -25,7 +25,7 @@ function mockProductApi(id: string) {
 
 async function insertCustomerRegister(): Promise<Customer['id']> {
     const customerData = { name: 'Alison', email: 'alison@provider.com' };
-    const customerCollection = MongoHelper.getCollection('customers');
+    const customerCollection = MongoHelper.getCollection<Customer>('customers');
     const { insertedId } = await customerCollection.insertOne({ ...customerData });
     return insertedId.toString();
 }

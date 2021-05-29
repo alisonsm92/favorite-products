@@ -5,13 +5,13 @@ import MongoCustomerRepository from './customer-repository';
 import Customer from '../../../../core/domain/customer';
 
 function makeSut() {
-    const collection = MongoHelper.getCollection('customers');
+    const collection = MongoHelper.getCollection<Customer>('customers');
     const sut = new MongoCustomerRepository();
     return { sut, collection };
 }
 
 async function insertCustomer(data:Omit<Customer, 'id'>) {
-    const { insertedId } = await MongoHelper.getCollection('customers').insertOne(data);
+    const { insertedId } = await MongoHelper.getCollection<Customer>('customers').insertOne(data);
     return insertedId.toString();
 }
 
@@ -37,7 +37,7 @@ describe('Mongodb User repository', () => {
             await sut.create(data);
 
             const customer = await collection.findOne({ email: data.email });
-            expect(customer.name).toEqual(data.name);
+            expect(customer?.name).toEqual(data.name);
         });
     });
 

@@ -6,7 +6,7 @@ import app from '../app';
 
 async function mockCustomerRegister(): Promise<Customer> {
     const customerData: Omit<Customer, 'id'> = { name: 'Alison', email: 'alison@provider.com' };
-    const customerCollection = MongoHelper.getCollection('customers');
+    const customerCollection = MongoHelper.getCollection<Customer>('customers');
     const { insertedId } = await customerCollection.insertOne({ ...customerData });
     return { id: insertedId.toString(), ...customerData };
 }

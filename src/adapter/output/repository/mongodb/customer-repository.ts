@@ -11,7 +11,7 @@ interface CustomerRegister extends Omit<Customer, 'id'> { _id: ObjectID }
 export default class MongoCustomerRepository implements
 CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository {
     private getCollection(): Collection<CustomerRegister> {
-        return MongoHelper.getCollection('customers');
+        return MongoHelper.getCollection<Customer>('customers');
     }
 
     private static map(document: CustomerRegister): Customer {

@@ -13,14 +13,14 @@ const product: Product = {
 };
 
 function makeSut() {
-    const collection = MongoHelper.getCollection('customers');
+    const collection = MongoHelper.getCollection<Customer>('customers');
     const sut = new MongoFavoriteProductsRepository();
 
     return { sut, collection };
 }
 
 async function insertCustomer(data:Omit<Customer, 'id'>) {
-    const { insertedId } = await MongoHelper.getCollection('customers').insertOne(data);
+    const { insertedId } = await MongoHelper.getCollection<Customer>('customers').insertOne(data);
     return insertedId.toString();
 }
 
@@ -46,8 +46,8 @@ describe('Testing MongoFavoriteProductsRepository', () => {
 
             await sut.add(customerId, product);
 
-            const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
-            expect(customer.favoriteProducts).toContainEqual(product);
+            const customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            expect(customer?.favoriteProducts).toContainEqual(product);
         });
 
         test('Should not duplicate product when it already in the favorite list', async () => {
@@ -57,8 +57,8 @@ describe('Testing MongoFavoriteProductsRepository', () => {
 
             await sut.add(customerId, product);
 
-            const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
-            expect(customer.favoriteProducts).toEqual([product]);
+            const customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            expect(customer?.favoriteProducts).toEqual([product]);
         });
     });
 

@@ -17,7 +17,7 @@ const customerData: Omit<Customer, 'id'> = {
 };
 
 async function insertCustomerRegister(): Promise<Customer['id']> {
-    const customerCollection = MongoHelper.getCollection('customers');
+    const customerCollection = MongoHelper.getCollection<Customer>('customers');
     const { insertedId } = await customerCollection.insertOne({ ...customerData });
     return insertedId.toString();
 }

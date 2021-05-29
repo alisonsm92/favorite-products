@@ -1,5 +1,9 @@
-import { MongoClient, Collection, MongoClientOptions } from 'mongodb';
+import {
+    MongoClient, Collection, MongoClientOptions, ObjectID,
+} from 'mongodb';
 import env from '../../../../../config/environment';
+
+type Document<T> = Omit<T, 'id'> & { _id: ObjectID }
 
 export default class MongoHelper {
     private static client = null as unknown as MongoClient;
@@ -18,7 +22,7 @@ export default class MongoHelper {
         MongoHelper.client.close();
     }
 
-    static getCollection(name: string): Collection {
+    static getCollection<T = any>(name: string): Collection<Document<T>> {
         return MongoHelper.client.db().collection(name);
     }
 

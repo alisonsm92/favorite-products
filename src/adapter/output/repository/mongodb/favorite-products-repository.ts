@@ -12,7 +12,7 @@ interface CustomerRegister extends Omit<Customer, 'id'> { _id: ObjectID }
 export default class MongoFavoriteProductsRepository implements
     AddFavoriteProductRepository, FindFavoriteProductsRepository {
     private getCollection(): Collection<CustomerRegister> {
-        return MongoHelper.getCollection('customers');
+        return MongoHelper.getCollection<Customer>('customers');
     }
 
     async add(customerId: Customer['id'], product: Product): Promise<void> {
