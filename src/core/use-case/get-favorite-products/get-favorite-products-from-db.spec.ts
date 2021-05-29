@@ -31,14 +31,14 @@ function makeSut(findFavoriteProductsRepository? :FindFavoriteProductsRepository
 describe('Testing GetFavoriteProductsFromDB', () => {
     test('Should return the customer favorite list', async () => {
         const sut = makeSut();
-        const favoriteProduct = await sut.execute('customerId');
-        expect(favoriteProduct).toEqual(success([product]));
+        const result = await sut.execute('customerId');
+        expect(result).toEqual(success([product]));
     });
 
     test('Should return failure when customer not exists', async () => {
         const findFavoriteProductRepository = makeFindFavoriteProductRepository({ exists: false });
         const sut = makeSut(findFavoriteProductRepository);
-        const favoriteProduct = await sut.execute('customerId');
-        expect(favoriteProduct).toEqual(fail(new ValidationError('Customer not found')));
+        const result = await sut.execute('customerId');
+        expect(result).toEqual(fail(new ValidationError('Customer not found')));
     });
 });
