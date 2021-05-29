@@ -4,7 +4,7 @@ import MongoHelper from '../../../adapter/output/repository/mongodb/helper/mongo
 import env from '../../../config/environment';
 import app from '../app';
 
-describe('Testing POST /customers', () => {
+describe('Testing POST /customer', () => {
     beforeAll(async () => {
         await MongoHelper.connect(env.mongodb.uri);
     });

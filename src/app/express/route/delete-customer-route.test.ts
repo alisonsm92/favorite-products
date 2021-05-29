@@ -4,7 +4,7 @@ import env from '../../../config/environment';
 import Customer from '../../../core/domain/customer';
 import app from '../app';
 
-describe('Testing DELETE /customers', () => {
+describe('Testing DELETE /customer', () => {
     beforeAll(async () => {
         await MongoHelper.connect(env.mongodb.uri);
     });
