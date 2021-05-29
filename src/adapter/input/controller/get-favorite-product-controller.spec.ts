@@ -16,13 +16,13 @@ const product: Product = {
 };
 
 function makeGetFavoriteProducts(result?: Result): GetFavoriteProducts {
-    class GetFavoriteProductOnDbStub implements GetFavoriteProducts {
+    class GetFavoriteProductFromDbStub implements GetFavoriteProducts {
         async execute(): Promise<Result> {
             if (!result) return Promise.reject();
             return Promise.resolve(result);
         }
     }
-    return new GetFavoriteProductOnDbStub();
+    return new GetFavoriteProductFromDbStub();
 }
 
 const makeGetFavoriteProductsSuccess = () => makeGetFavoriteProducts(success([product]));
