@@ -115,7 +115,7 @@ describe('Mongodb User repository', () => {
         test('Should return false when the register is not found',
             async () => {
                 const { sut } = makeSut();
-                const nonExistentId = '507f191e810c19729de860ea';
+                const nonExistentId = (new ObjectID()).toHexString();
                 const isSuccess = await sut.delete(nonExistentId);
                 expect(isSuccess).toBe(false);
             });
@@ -125,7 +125,6 @@ describe('Mongodb User repository', () => {
         const product = {
             price: 100.0,
             image: 'https://fake-products-api.com/images/uuid.jpg',
-            brand: 'The best',
             id: '1',
             title: 'Favorite product',
         };
@@ -151,5 +150,40 @@ describe('Mongodb User repository', () => {
             const customer: Customer = await collection.findOne({ _id: new ObjectID(customerId) });
             expect(customer.favoriteProducts).toEqual([product]);
         });
+    });
+
+    describe('FindFavoriteProduct method', () => {
+        const product = {
+            price: 100.0,
+            image: 'https://fake-products-api.com/images/uuid.jpg',
+            id: '1',
+            title: 'Favorite product',
+        };
+
+        test('Should return the customer favorite product list', async () => {
+            const { sut } = makeSut();
+            const data = { name: 'Alison', email: 'alison@provider.com', favoriteProducts: [product] };
+            const customerId = await insertCustomer(data);
+            const favoriteProducts = await sut.findFavoriteProduct(customerId);
+            expect(favoriteProducts).toEqual([product]);
+        });
+
+        test('Should return null when the customer not exists', async () => {
+            const { sut } = makeSut();
+            const nonExistentId = (new ObjectID()).toHexString();
+            const favoriteProducts = await sut.findFavoriteProduct(nonExistentId);
+            expect(favoriteProducts).toBeNull();
+        });
+
+        test('Should return an empty array when the customer do not have a favorite product list',
+            async () => {
+                const { sut } = makeSut();
+                const customer = { name: 'Alison', email: 'alison@provider.com' };
+                const customerId = await insertCustomer(customer);
+
+                const favoriteProducts = await sut.findFavoriteProduct(customerId);
+
+                expect(favoriteProducts).toEqual([]);
+            });
     });
 });

@@ -53,4 +53,13 @@ CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository, Upda
             { _id: new ObjectID(customerId) }, { $addToSet: { favoriteProducts: product } },
         );
     }
+
+    async findFavoriteProduct(customerId: Customer['id']): Promise<Product[]|null> {
+        const filter = { _id: new ObjectID(customerId) };
+        const options = { projection: { favoriteProducts: 1 } };
+        const customer = await this.getCollection().findOne(filter, options);
+        if (!customer) return null;
+        if (!customer.favoriteProducts) return [];
+        return customer.favoriteProducts;
+    }
 }
