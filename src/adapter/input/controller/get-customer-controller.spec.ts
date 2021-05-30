@@ -1,4 +1,4 @@
-import { ObjectID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { Either, success, fail } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
 import ValidationError from '../../../core/use-case/error/validation-error';
@@ -9,8 +9,13 @@ import GetCustomerController from './get-customer-controller';
 
 type Result = Either<ValidationError, Customer>
 
+function makeObjectIdString() {
+    const objectId = new ObjectId();
+    return objectId.toHexString();
+}
+
 const customer: Customer = {
-    id: (new ObjectID()).toHexString(),
+    id: makeObjectIdString(),
     name: 'Alison',
     email: 'alison@provider.com',
     favoriteProducts: [
@@ -22,11 +27,6 @@ const customer: Customer = {
         },
     ],
 };
-
-function makeObjectIdString() {
-    const objectId = new ObjectID();
-    return objectId.toHexString();
-}
 
 function makeGetCustomer(result?: Result): GetCustomer {
     class GetCustomerFromDbStub implements GetCustomer {

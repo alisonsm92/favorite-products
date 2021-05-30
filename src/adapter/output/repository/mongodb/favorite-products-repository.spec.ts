@@ -1,4 +1,4 @@
-import { ObjectID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import env from '../../../../config/environment';
 import Customer from '../../../../core/domain/customer';
 import Product from '../../../../core/domain/product';
@@ -12,16 +12,21 @@ const product: Product = {
     title: 'Favorite product',
 };
 
-function makeSut() {
-    const collection = MongoHelper.getCollection<Customer>('customers');
-    const sut = new MongoFavoriteProductsRepository();
-
-    return { sut, collection };
+function makeObjectIdString() {
+    const objectId = new ObjectId();
+    return objectId.toHexString();
 }
 
 async function insertCustomer(data:Omit<Customer, 'id'>) {
     const { insertedId } = await MongoHelper.getCollection<Customer>('customers').insertOne(data);
     return insertedId.toString();
+}
+
+function makeSut() {
+    const collection = MongoHelper.getCollection<Customer>('customers');
+    const sut = new MongoFavoriteProductsRepository();
+
+    return { sut, collection };
 }
 
 describe('Testing MongoFavoriteProductsRepository', () => {
@@ -46,7 +51,7 @@ describe('Testing MongoFavoriteProductsRepository', () => {
 
             await sut.add(customerId, product);
 
-            const customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            const customer = await collection.findOne({ _id: new ObjectId(customerId) });
             expect(customer?.favoriteProducts).toContainEqual(product);
         });
 
@@ -57,7 +62,7 @@ describe('Testing MongoFavoriteProductsRepository', () => {
 
             await sut.add(customerId, product);
 
-            const customer = await collection.findOne({ _id: new ObjectID(customerId) });
+            const customer = await collection.findOne({ _id: new ObjectId(customerId) });
             expect(customer?.favoriteProducts).toEqual([product]);
         });
     });
@@ -73,7 +78,7 @@ describe('Testing MongoFavoriteProductsRepository', () => {
 
         test('Should return null when the customer not exists', async () => {
             const { sut } = makeSut();
-            const nonExistentId = (new ObjectID()).toHexString();
+            const nonExistentId = makeObjectIdString();
             const favoriteProducts = await sut.findByCustomerId(nonExistentId);
             expect(favoriteProducts).toBeNull();
         });

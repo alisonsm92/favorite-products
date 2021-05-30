@@ -10,6 +10,11 @@ import CreateCustomerController from './create-customer-controller';
 
 type Result = Either<ValidationError, Customer['id']>
 
+function makeObjectIdString() {
+    const objectId = new ObjectId();
+    return objectId.toHexString();
+}
+
 function makeCreateCustomer(result?: Result): CreateCustomer {
     class CreateCustomerOnDbStub implements CreateCustomer {
         async execute(): Promise<Result> {
@@ -32,7 +37,7 @@ function makeSut(createCustomer :CreateCustomer): CreateCustomerController {
 describe('Testing CreateCustomerController', () => {
     test('Should return http response ok when creates the customer successfully', async () => {
         const httpRequest: HttpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
-        const newId = (new ObjectId()).toHexString();
+        const newId = makeObjectIdString();
         const createCustomer = makeCreateCustomerSuccess(newId);
         const sut = makeSut(createCustomer);
 
@@ -48,7 +53,7 @@ describe('Testing CreateCustomerController', () => {
 
     test('Should return http response bad request when input data is invalid', async () => {
         const httpRequest: HttpRequest = { body: { name: 'Alison' } };
-        const newId = (new ObjectId()).toHexString();
+        const newId = makeObjectIdString();
         const createCustomer = makeCreateCustomerSuccess(newId);
         const sut = makeSut(createCustomer);
 

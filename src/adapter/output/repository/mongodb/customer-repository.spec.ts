@@ -1,18 +1,23 @@
-import { ObjectID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import MongoHelper from './helper/mongodb-helper';
 import env from '../../../../config/environment';
 import MongoCustomerRepository from './customer-repository';
 import Customer from '../../../../core/domain/customer';
 
-function makeSut() {
-    const collection = MongoHelper.getCollection<Customer>('customers');
-    const sut = new MongoCustomerRepository();
-    return { sut, collection };
+function makeObjectIdString() {
+    const objectId = new ObjectId();
+    return objectId.toHexString();
 }
 
 async function insertCustomer(data:Omit<Customer, 'id'>) {
     const { insertedId } = await MongoHelper.getCollection<Customer>('customers').insertOne(data);
     return insertedId.toString();
+}
+
+function makeSut() {
+    const collection = MongoHelper.getCollection<Customer>('customers');
+    const sut = new MongoCustomerRepository();
+    return { sut, collection };
 }
 
 describe('Mongodb User repository', () => {
@@ -90,7 +95,7 @@ describe('Mongodb User repository', () => {
 
         test('Should return null when there are none customer register with the id provided',
             async () => {
-                const nonExistentId = (new ObjectID()).toHexString();
+                const nonExistentId = makeObjectIdString();
                 const { sut } = makeSut();
                 const result = await sut.findById(nonExistentId);
                 expect(result).toBeNull();
@@ -106,7 +111,7 @@ describe('Mongodb User repository', () => {
 
                 const isSuccess = await sut.delete(id);
 
-                const register = await collection.findOne({ _id: new ObjectID(id) });
+                const register = await collection.findOne({ _id: new ObjectId(id) });
                 expect(register).toBeNull();
                 expect(isSuccess).toBe(true);
             });
@@ -114,7 +119,7 @@ describe('Mongodb User repository', () => {
         test('Should return false when the register is not found',
             async () => {
                 const { sut } = makeSut();
-                const nonExistentId = (new ObjectID()).toHexString();
+                const nonExistentId = makeObjectIdString();
                 const isSuccess = await sut.delete(nonExistentId);
                 expect(isSuccess).toBe(false);
             });

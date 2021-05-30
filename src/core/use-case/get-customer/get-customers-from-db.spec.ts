@@ -1,12 +1,17 @@
-import { ObjectID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { success, fail } from '../../../common/either';
 import Customer from '../../domain/customer';
 import ValidationError from '../error/validation-error';
 import FindCustomerRepository from '../port/find-customer-repository';
 import GetCustomerFromDB from './get-customers-from-db';
 
+function makeObjectIdString() {
+    const objectId = new ObjectId();
+    return objectId.toHexString();
+}
+
 const customer: Customer = {
-    id: (new ObjectID()).toHexString(),
+    id: makeObjectIdString(),
     name: 'Alison',
     email: 'alison@provider.com',
     favoriteProducts: [
