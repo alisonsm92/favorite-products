@@ -22,7 +22,7 @@ export default class MongoHelper {
         MongoHelper.client.close();
     }
 
-    static getCollection<T = any>(name: string): Collection<Document<T>> {
+    static getCollection<T = unknown>(name: string): Collection<Document<T>> {
         return MongoHelper.client.db().collection(name);
     }
 
