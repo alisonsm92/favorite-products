@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  description: "API para gerenciar contas de clientes e suas listas de produtos favoritos."
+  title: "Favorite Products Service"
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "alison.sm92@gmail.com"
+  license:
+    name: "GNU General Public License"
+    url: "https://www.gnu.org/licenses/gpl-3.0.pt-br.html"
+servers:
+  - url: "localhost"
+tags:
+- name: "customer"
+  description: "Acesse os dados de clientes"
+- name: "favorite-products"
+  description: "Lista de produtos favoritos do cliente"
+paths:
+  /customer:
+    post:
+      tags:
+      - "customer"
+      summary: "Cadastra um novo cliente"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomer'
+      responses:
+        200:
+          description: Operação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        400:
+          description: Requisição mal formatada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /customer/{id}:
+    get:
+      tags:
+      - "customer"
+      summary: "Retorna os dados do cliente"
+      parameters:
+        - in: path
+          name: id
+          description: "Identificador do cliente a ser retornado"
+          required: true
+          schema:
+            type: string
+            minLength: 24
+            maxLength: 24
+      responses:
+        200:
+          description: Operação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        404:
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    delete:
+      tags:
+      - "customer"
+      summary: "Deleta um cliente"
+      parameters:
+        - in: path
+          name: id
+          description: "Identificador do cliente a ser deletado"
+          required: true
+          schema:
+            type: string
+            minLength: 24
+            maxLength: 24
+      responses:
+        204:
+          description: Operação bem sucedida 
+        404:
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /customer/{customer_id}/favorite-product/{product_id}:
+    post:
+      tags:
+      - "favorite-products"
+      summary: "Adiciona um produto na lista de produtos favoritos do cliente"
+      parameters:
+        - in: path
+          name: customer_id
+          description: "Identificador do cliente"
+          required: true
+          schema:
+            type: string
+            minLength: 24
+            maxLength: 24
+        - in: path
+          name: product_id
+          description: "Identificador do produto a ser adicionado"
+          required: true
+          schema:
+            type: string
+            format: 'uuid'
+      responses:
+        200:
+          description: Operação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteProduct'
+        400:
+          description: Requisição mal formatada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        404:
+          description: Cliente ou produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /customer/{customer_id}/favorite-product:
+    get:
+      tags:
+      - "favorite-products"
+      summary: "Retorna a lista de produtos favoritos de um cliente"
+      parameters:
+        - in: path
+          name: customer_id
+          description: "Identificador do cliente"
+          required: true
+          schema:
+            type: string
+            minLength: 24
+            maxLength: 24
+      responses:
+        200:
+          description: Operação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FavoriteProducts'
+        404:
+          description: Cliente não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        500:
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+components:
+  schemas:
+    CreateCustomer:
+      type: "object"
+      required:
+      - "name"
+      - "email"
+      properties:
+        name:
+          type: "string"
+          example: "Alison"
+        email:
+          type: "string"
+          format: "email"
+          example: "alison.sm92@gmail.com"
+    Customer:
+      type: "object"
+      required:
+      - "id"
+      - "name"
+      - "email"
+      properties:
+        id:
+          type: "string"
+          minLength: 24
+          maxLength: 24
+          example: "507f1f77bcf86cd799439011"
+        name:
+          type: "string"
+          example: "Alison"
+        email:
+          type: "string"
+          format: "email"
+          example: "alison.sm92@gmail.com"
+    FavoriteProducts:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/FavoriteProduct'
+    FavoriteProduct:
+      type: "object"
+      required:
+      - "id"
+      - "price"
+      - "image"
+      - "title"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+          example: "571fa8cc-2ee7-5ab4-b388-06d55fd8ab2f"
+        price:
+          type: number
+          example: 159.0
+        image:
+          type: "string"
+          format: "url"
+        title:
+          type: "string"
+          example: "Nome do produto"
+        reviewScore:
+          type: number
+          example: 4.352941
+    NotFound:
+      type: "object"
+      required:
+      - "message"
+      properties:
+        message:
+          type: "string"
+          example: "<resource> not found"
+    BadRequest:
+      type: "object"
+      required:
+      - "message"
+      properties:
+        message:
+          type: "string"
+          example: "Validation error"
+    InternalServerError:
+      type: "object"
+      required:
+      - "message"
+      properties:
+        message:
+          type: "string"
+          example: "Internal server error"
+      
