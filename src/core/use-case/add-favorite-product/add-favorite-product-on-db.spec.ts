@@ -7,6 +7,7 @@ import FindCustomerRepository from '../common/port/find-customer-repository';
 import AddFavoriteProductOnDb from './add-favorite-product-on-db';
 import FindProductRepository from './port/find-product-repository';
 import AddFavoriteProductRepository from './port/add-favorite-product-repository';
+import NotFoundError from '../../error/not-found-error';
 
 type Options = { exists: boolean, favoriteProducts? :Product[] }
 
@@ -77,7 +78,7 @@ describe('Testing AddFavoriteProductOnDb', () => {
         const findCustomerRepository = makeFindCustomerRepository({ exists: false });
         const sut = makeSut({ findCustomerRepository });
         const result = await sut.execute(customerID, productID);
-        expect(result).toEqual(fail(new ValidationError('Customer not found')));
+        expect(result).toEqual(fail(new NotFoundError('Customer')));
     });
 
     test('Should return fail when product does not exists', async () => {
@@ -86,7 +87,7 @@ describe('Testing AddFavoriteProductOnDb', () => {
         const findProductRepository = makeFindProductRepository({ exists: false });
         const sut = makeSut({ findProductRepository });
         const result = await sut.execute(customerID, productID);
-        expect(result).toEqual(fail(new ValidationError('Product not found')));
+        expect(result).toEqual(fail(new NotFoundError('Product')));
     });
 
     test('Should return fail when product is already in the favorite list', async () => {

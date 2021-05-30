@@ -2,12 +2,13 @@ import { Either, success, fail } from '../../../common/either';
 import Product from '../../../core/domain/product';
 import AddFavoriteProduct from '../../../core/use-case/add-favorite-product/port/add-favorite-product';
 import AddFavoriteProductParams from '../../../core/use-case/add-favorite-product/port/add-favorite-product-params';
-import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import AddFavoriteProductController from './add-favorite-product-controller';
 import logger from '../../../app/express/logger/pino';
+import NotFoundError from '../../../core/error/not-found-error';
+import ValidationError from '../../../core/error/validation-error';
 
-type Result = Either<ValidationError, Product>
+type Result = Either<NotFoundError|ValidationError, Product>
 
 const product: Product = {
     price: 100.0,
@@ -47,18 +48,33 @@ describe('Testing AddFavoriteProductController', () => {
         expect(httpResponse.body).toBe(product);
     });
 
-    test('Should return http response not found when fail to add favorite product', async () => {
-        const params: AddFavoriteProductParams = { customerId: '1', productId: '1' };
-        const httpRequest: HttpRequest = { params, body: null };
-        const error = new ValidationError('Error message');
-        const addFavoriteProduct = makeAddFavoriteProductFailure(error);
-        const sut = makeSut(addFavoriteProduct);
+    test('Should return http response not found when the use case returns a not found error',
+        async () => {
+            const params: AddFavoriteProductParams = { customerId: '1', productId: 'x' };
+            const httpRequest: HttpRequest = { params, body: null };
+            const error = new NotFoundError('Product');
+            const addFavoriteProduct = makeAddFavoriteProductFailure(error);
+            const sut = makeSut(addFavoriteProduct);
 
-        const httpResponse = await sut.handle(httpRequest);
+            const httpResponse = await sut.handle(httpRequest);
 
-        expect(httpResponse.statusCode).toBe(404);
-        expect(httpResponse.body).toEqual({ error: { message: error.message } });
-    });
+            expect(httpResponse.statusCode).toBe(404);
+            expect(httpResponse.body).toEqual({ error: { message: error.message } });
+        });
+
+    test('Should return http response bad request when the use case return a Validation error',
+        async () => {
+            const params: AddFavoriteProductParams = { customerId: '1', productId: '1' };
+            const httpRequest: HttpRequest = { params, body: null };
+            const error = new ValidationError('Error message');
+            const addFavoriteProduct = makeAddFavoriteProductFailure(error);
+            const sut = makeSut(addFavoriteProduct);
+
+            const httpResponse = await sut.handle(httpRequest);
+
+            expect(httpResponse.statusCode).toBe(400);
+            expect(httpResponse.body).toEqual({ error: { message: error.message } });
+        });
 
     test('Should return http response server error when throw an error in the use case', async () => {
         const params: AddFavoriteProductParams = { customerId: '1', productId: '1' };

@@ -1,6 +1,9 @@
+import NotFoundError from '../../../core/error/not-found-error';
 import AddFavoriteProduct from '../../../core/use-case/add-favorite-product/port/add-favorite-product';
 import AddFavoriteProductParams from '../../../core/use-case/add-favorite-product/port/add-favorite-product-params';
-import { notFound, ok, serverError } from '../helper/http-helper';
+import {
+    badRequest, notFound, ok, serverError,
+} from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
 import Logger from '../port/logger';
@@ -20,7 +23,9 @@ export default class AddFavoriteProductController implements Controller {
             const { customerId, productId } = request.params as AddFavoriteProductParams;
             const result = await this.addFavoriteProduct.execute(customerId, productId);
             if (result.isFailure()) {
-                return notFound(result.error);
+                return result.error instanceof NotFoundError
+                    ? notFound(result.error)
+                    : badRequest(result.error);
             }
             return ok(result.value);
         } catch (error) {

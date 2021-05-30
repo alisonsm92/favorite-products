@@ -7,8 +7,9 @@ import isSameId from './helper/add-favorite-product-helper';
 import AddFavoriteProduct from './port/add-favorite-product';
 import FindProductRepository from './port/find-product-repository';
 import AddFavoriteProductRepository from './port/add-favorite-product-repository';
+import NotFoundError from '../../error/not-found-error';
 
-type Result = Promise<Either<ValidationError, Product>>
+type Result = Promise<Either<NotFoundError|ValidationError, Product>>
 
 export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
     private readonly findCustomerRepository: FindCustomerRepository;
@@ -30,14 +31,14 @@ export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
     async execute(customerId: Customer['id'], productId: Product['id']): Result {
         const customer = await this.findCustomerRepository.findById(customerId);
         if (!customer) {
-            return fail(new ValidationError('Customer not found'));
+            return fail(new NotFoundError('Customer'));
         }
         if (customer.favoriteProducts && customer.favoriteProducts.find(isSameId(productId))) {
             return fail(new ValidationError('The product is already in the list of favorites'));
         }
         const product = await this.findProductRepository.findById(productId);
         if (!product) {
-            return fail(new ValidationError('Product not found'));
+            return fail(new NotFoundError('Product'));
         }
         await this.addFavoriteProductRepository.add(customerId, product);
         return success(product);
