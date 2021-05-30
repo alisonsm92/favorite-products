@@ -2,8 +2,8 @@
 import { fail, success } from '../../../common/either';
 import Customer from '../../domain/customer';
 import Product from '../../domain/product';
-import ValidationError from '../error/validation-error';
-import FindCustomerRepository from '../port/find-customer-repository';
+import ValidationError from '../../error/validation-error';
+import FindCustomerRepository from '../common/port/find-customer-repository';
 import AddFavoriteProductOnDb from './add-favorite-product-on-db';
 import FindProductRepository from './port/find-product-repository';
 import AddFavoriteProductRepository from './port/add-favorite-product-repository';

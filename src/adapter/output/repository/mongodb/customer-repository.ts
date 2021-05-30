@@ -3,7 +3,7 @@ import Customer from '../../../../core/domain/customer';
 import CreateCustomerParams from '../../../../core/use-case/create-customer/port/create-customer-params';
 import CreateCustomerRepository from '../../../../core/use-case/create-customer/port/create-customer-repository';
 import DeleteCustomerRepository from '../../../../core/use-case/delete-customer/port/delete-customer-repository';
-import FindCustomerRepository from '../../../../core/use-case/port/find-customer-repository';
+import FindCustomerRepository from '../../../../core/use-case/common/port/find-customer-repository';
 import MongoHelper from './helper/mongodb-helper';
 
 interface CustomerRegister extends Omit<Customer, 'id'> { _id: ObjectID }

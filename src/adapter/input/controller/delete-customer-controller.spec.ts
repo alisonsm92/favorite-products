@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { Either, success, fail } from '../../../common/either';
 import DeleteCustomer from '../../../core/use-case/delete-customer/port/delete-customer';
-import NotFoundError from '../../../core/use-case/error/not-found-error';
+import NotFoundError from '../../../core/error/not-found-error';
 import { HttpRequest } from '../port/http';
 import DeleteCustomerController from './delete-customer-controller';
 
@@ -17,7 +17,7 @@ function makeDeleteCustomer(result?: Result): DeleteCustomer {
     return new DeleteCustomerOnDbStub();
 }
 
-const makeDeleteCustomerSuccess = () => makeDeleteCustomer(success());
+const makeDeleteCustomerSuccess = () => makeDeleteCustomer(success(undefined));
 const makeDeleteCustomerFailure = (error: Error) => makeDeleteCustomer(fail(error));
 const makeDeleteCustomerThrowError = () => makeDeleteCustomer();
 

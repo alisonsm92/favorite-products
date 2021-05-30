@@ -4,7 +4,7 @@ import JsonSchemaValidatorWrapper from '../../../app/validator/json-schema-valid
 import { Either, fail, success } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
 import CreateCustomer from '../../../core/use-case/create-customer/port/create-customer';
-import ValidationError from '../../../core/use-case/error/validation-error';
+import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import CreateCustomerController from './create-customer-controller';
 

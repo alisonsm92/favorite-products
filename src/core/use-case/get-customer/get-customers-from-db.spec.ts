@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb';
 import { success, fail } from '../../../common/either';
 import Customer from '../../domain/customer';
-import ValidationError from '../error/validation-error';
-import FindCustomerRepository from '../port/find-customer-repository';
+import ValidationError from '../../error/validation-error';
+import FindCustomerRepository from '../common/port/find-customer-repository';
 import GetCustomerFromDB from './get-customers-from-db';
 
 function makeObjectIdString() {

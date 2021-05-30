@@ -1,6 +1,6 @@
 import { success, fail } from '../../../common/either';
 import Customer from '../../domain/customer';
-import ValidationError from '../error/validation-error';
+import ValidationError from '../../error/validation-error';
 import CreateCustomerOnDb from './create-customer-on-db';
 import CreateCustomerParams from './port/create-customer-params';
 import CreateCustomerRepository from './port/create-customer-repository';

@@ -1,6 +1,6 @@
 import { Either, success, fail } from '../../../common/either';
 import Product from '../../../core/domain/product';
-import ValidationError from '../../../core/use-case/error/validation-error';
+import ValidationError from '../../../core/error/validation-error';
 import GetFavoriteProducts from '../../../core/use-case/get-favorite-products/port/get-favorite-products';
 import GetFavoriteProductParams from '../../../core/use-case/get-favorite-products/port/get-favorite-products.params';
 import { HttpRequest } from '../port/http';

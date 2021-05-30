@@ -2,7 +2,7 @@ import { Either, success, fail } from '../../../common/either';
 import Product from '../../../core/domain/product';
 import AddFavoriteProduct from '../../../core/use-case/add-favorite-product/port/add-favorite-product';
 import AddFavoriteProductParams from '../../../core/use-case/add-favorite-product/port/add-favorite-product-params';
-import ValidationError from '../../../core/use-case/error/validation-error';
+import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import AddFavoriteProductController from './add-favorite-product-controller';
 

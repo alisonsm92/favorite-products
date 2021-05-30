@@ -1,7 +1,7 @@
 import { Either, fail, success } from '../../../common/either';
 import Customer from '../../domain/customer';
 import Product from '../../domain/product';
-import ValidationError from '../error/validation-error';
+import ValidationError from '../../error/validation-error';
 import FindFavoriteProductsRepository from './port/find-favorite-products-repository';
 import GetFavoriteProducts from './port/get-favorite-products';
 

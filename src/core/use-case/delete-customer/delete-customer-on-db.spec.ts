@@ -1,5 +1,5 @@
 import { fail, success } from '../../../common/either';
-import NotFoundError from '../error/not-found-error';
+import NotFoundError from '../../error/not-found-error';
 import DeleteCustomerOnDb from './delete-customer-on-db';
 import DeleteCustomerRepository from './port/delete-customer-repository';
 
@@ -22,7 +22,7 @@ describe('Testing delete customer on db use case', () => {
         const deleteCustomerRepository = makeDeleteCustomerRepository({ exists: false });
         const sut = makeSut(deleteCustomerRepository);
         const result = await sut.execute(nonExistentID);
-        expect(result).toEqual(success());
+        expect(result).toEqual(success(undefined));
     });
 
     test('Should return fail when the id provided not exists on the database', async () => {

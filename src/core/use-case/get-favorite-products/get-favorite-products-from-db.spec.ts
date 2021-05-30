@@ -1,6 +1,6 @@
 import { success, fail } from '../../../common/either';
 import Product from '../../domain/product';
-import ValidationError from '../error/validation-error';
+import ValidationError from '../../error/validation-error';
 import GetFavoriteProductsFromDB from './get-favorite-products-from-db';
 import FindFavoriteProductsRepository from './port/find-favorite-products-repository';
 

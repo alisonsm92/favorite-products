@@ -1,4 +1,4 @@
-import Customer from '../../domain/customer';
+import Customer from '../../../domain/customer';
 
 interface FindCustomerRepository {
     findById(id: Customer['id']) : Promise<Customer|null>

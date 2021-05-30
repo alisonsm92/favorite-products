@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { Either, success, fail } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
-import ValidationError from '../../../core/use-case/error/validation-error';
+import ValidationError from '../../../core/error/validation-error';
 import GetCustomer from '../../../core/use-case/get-customer/port/get-customer';
 import GetCustomerParams from '../../../core/use-case/get-customer/port/get-customers-params';
 import { HttpRequest } from '../port/http';

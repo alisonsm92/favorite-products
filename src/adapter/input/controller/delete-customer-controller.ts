@@ -1,7 +1,7 @@
 import { Either } from '../../../common/either';
 import DeleteCustomer from '../../../core/use-case/delete-customer/port/delete-customer';
 import DeleteCustomerParams from '../../../core/use-case/delete-customer/port/delete-customer-params';
-import NotFoundError from '../../../core/use-case/error/not-found-error';
+import NotFoundError from '../../../core/error/not-found-error';
 import { notFound, noContent, serverError } from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';

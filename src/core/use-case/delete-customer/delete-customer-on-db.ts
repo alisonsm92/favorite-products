@@ -1,5 +1,5 @@
 import { Either, success, fail } from '../../../common/either';
-import NotFoundError from '../error/not-found-error';
+import NotFoundError from '../../error/not-found-error';
 import DeleteCustomer from './port/delete-customer';
 import DeleteCustomerParams from './port/delete-customer-params';
 import DeleteCustomerRepository from './port/delete-customer-repository';
