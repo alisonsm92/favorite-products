@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { ObjectId } from 'mongodb';
+import { request } from 'express';
 import JsonSchemaValidatorWrapper from '../../../app/validator/json-schema-validator-wrapper';
 import { Either, fail, success } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
@@ -8,7 +9,9 @@ import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import CreateCustomerController from './create-customer-controller';
 
-type Result = Either<ValidationError, Customer['id']>
+type Result = Either<ValidationError, Customer>
+
+const customer: Customer = { id: makeObjectIdString(), name: 'Alison', email: 'alison@provider.com' };
 
 function makeObjectIdString() {
     const objectId = new ObjectId();
@@ -25,7 +28,7 @@ function makeCreateCustomer(result?: Result): CreateCustomer {
     return new CreateCustomerOnDbStub();
 }
 
-const makeCreateCustomerSuccess = (newId: Customer['id']) => makeCreateCustomer(success(newId));
+const makeCreateCustomerSuccess = () => makeCreateCustomer(success(customer));
 const makeCreateCustomerFailure = (error: Error) => makeCreateCustomer(fail(error));
 const makeCreateCustomerThrowError = () => makeCreateCustomer();
 
@@ -37,15 +40,14 @@ function makeSut(createCustomer :CreateCustomer): CreateCustomerController {
 describe('Testing CreateCustomerController', () => {
     test('Should return http response ok when creates the customer successfully', async () => {
         const httpRequest: HttpRequest = { body: { name: 'Alison', email: 'alison@provider.com' } };
-        const newId = makeObjectIdString();
-        const createCustomer = makeCreateCustomerSuccess(newId);
+        const createCustomer = makeCreateCustomerSuccess();
         const sut = makeSut(createCustomer);
 
         const httpResponse = await sut.handle(httpRequest);
 
         expect(httpResponse.statusCode).toBe(200);
         expect(httpResponse.body).toEqual({
-            id: newId,
+            id: customer.id,
             name: 'Alison',
             email: 'alison@provider.com',
         });
@@ -53,8 +55,7 @@ describe('Testing CreateCustomerController', () => {
 
     test('Should return http response bad request when input data is invalid', async () => {
         const httpRequest: HttpRequest = { body: { name: 'Alison' } };
-        const newId = makeObjectIdString();
-        const createCustomer = makeCreateCustomerSuccess(newId);
+        const createCustomer = makeCreateCustomerSuccess();
         const sut = makeSut(createCustomer);
 
         const httpResponse = await sut.handle(httpRequest);

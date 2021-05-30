@@ -9,7 +9,7 @@ import { HttpRequest, HttpResponse } from '../port/http';
 import { JsonSchemaValidator } from '../port/json-schema-validator';
 import createCustomerSchema from '../schema/create-customer-schema';
 
-type Result = Either<ValidationError, Customer['id']>
+type Result = Either<ValidationError, Customer>
 
 export default class CreateCustomerController implements Controller {
     private readonly createCustomer: CreateCustomer
@@ -24,7 +24,7 @@ export default class CreateCustomerController implements Controller {
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const inputData = Object.freeze(request.body) as CreateCustomerParams;
+            const inputData = request.body as CreateCustomerParams;
             const validation = this.jsonSchemaValidator.validate(inputData, createCustomerSchema);
             if (validation.isFailure()) {
                 return badRequest(validation.error);
@@ -34,7 +34,7 @@ export default class CreateCustomerController implements Controller {
                 return badRequest(result.error);
             }
 
-            return ok({ id: result.value, ...inputData });
+            return ok(result.value);
         } catch (error) {
             return serverError();
         }

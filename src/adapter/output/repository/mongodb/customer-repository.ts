@@ -16,12 +16,12 @@ CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository {
 
     private static map(document: CustomerRegister): Customer {
         const { _id, ...rest } = document;
-        return { ...rest, id: _id.toString() };
+        return { ...rest, id: _id.toHexString() };
     }
 
-    async create(data: CreateCustomerParams): Promise<Customer['id']> {
+    async create(data: CreateCustomerParams): Promise<Customer> {
         const { insertedId } = await this.getCollection().insertOne({ ...data });
-        return insertedId.toString();
+        return MongoCustomerRepository.map({ _id: insertedId, ...data });
     }
 
     async exists(email: Customer['email']): Promise<boolean> {
