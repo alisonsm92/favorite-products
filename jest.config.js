@@ -12,5 +12,6 @@ module.exports = {
         '<rootDir>/src/**/*.ts',
         '!<rootDir>/src/config/*.ts',
         '!<rootDir>/src/app/server.ts',
+        '!<rootDir>/src/app/express/logger/*.ts',
     ],
 };
