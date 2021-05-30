@@ -18,7 +18,7 @@ describe('Testing JsonSchemaValidatorWrapper', () => {
         const input = { required_property: 'value' };
         const sut = new JsonSchemaValidatorWrapper();
         const result = sut.validate(input, schema);
-        expect(result).toEqual(success());
+        expect(result).toEqual(success(undefined));
     });
 
     test('Should return failure with the expected error when validation result is invalid', () => {

@@ -16,7 +16,7 @@ export default class JsonSchemaValidatorWrapper implements JsonSchemaValidator {
 
     validate(input: unknown, schema: Schema): Either<InvalidInputError, void> {
         const { valid, errors } = this.validator.validate(input, schema);
-        if (valid) return success();
+        if (valid) return success(undefined);
 
         const [firstError] = errors;
         const message = JsonSchemaValidatorWrapper.formatError(firstError);

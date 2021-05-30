@@ -16,6 +16,6 @@ export default class DeleteCustomerOnDb implements DeleteCustomer {
         if (!isSuccess) {
             return fail(new NotFoundError('customer'));
         }
-        return success();
+        return success(undefined);
     }
 }
