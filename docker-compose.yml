@@ -5,13 +5,21 @@ services:
         restart: always
         ports:
           - "27017:27017"
+    swagger:
+        container_name: doc-container
+        image: swaggerapi/swagger-ui
+        ports:
+            - "${SWAGGER_UI_PORT}:8080"
+        environment:
+            - BASE_URL=/docs
+            - SWAGGER_JSON=/swagger/openapi.yml
+        volumes:
+            - ./src/doc:/swagger/
     api:
         container_name: api-container
         build: .
         environment:
             - MONGO_URL=mongodb://mongo:27017/favorite-product-service
-        volumes:
-            - ./dist:/usr/src/app/dist
         ports:
             - "${PORT}:3000"
         links:
