@@ -1,6 +1,6 @@
 import { success, fail } from '../../../common/either';
 import Product from '../../domain/product';
-import ValidationError from '../../error/validation-error';
+import NotFoundError from '../../error/not-found-error';
 import GetFavoriteProductsFromDB from './get-favorite-products-from-db';
 import FindFavoriteProductsRepository from './port/find-favorite-products-repository';
 
@@ -39,6 +39,6 @@ describe('Testing GetFavoriteProductsFromDB', () => {
         const findFavoriteProductRepository = makeFindFavoriteProductRepository({ exists: false });
         const sut = makeSut(findFavoriteProductRepository);
         const result = await sut.execute('customerId');
-        expect(result).toEqual(fail(new ValidationError('Customer not found')));
+        expect(result).toEqual(fail(new NotFoundError('Customer')));
     });
 });

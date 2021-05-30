@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { success, fail } from '../../../common/either';
 import Customer from '../../domain/customer';
-import ValidationError from '../../error/validation-error';
+import NotFoundError from '../../error/not-found-error';
 import FindCustomerRepository from '../common/port/find-customer-repository';
 import GetCustomerFromDB from './get-customers-from-db';
 
@@ -52,6 +52,6 @@ describe('Testing GetFavoriteProductsFromDB', () => {
         const findFavoriteProductRepository = makeFindFavoriteProductRepository({ exists: false });
         const sut = makeSut(findFavoriteProductRepository);
         const result = await sut.execute('customerId');
-        expect(result).toEqual(fail(new ValidationError('Customer not found')));
+        expect(result).toEqual(fail(new NotFoundError('Customer')));
     });
 });
