@@ -22,7 +22,7 @@ async function insertCustomerRegister(): Promise<Customer['id']> {
     return insertedId.toString();
 }
 
-describe('Testing POST /customer/:customerId/favorite-product/:productId', () => {
+describe('Testing GET /customer/:customerId/favorite-product/:productId', () => {
     beforeAll(async () => {
         await MongoHelper.initialize(env.mongodb.uri);
     });
