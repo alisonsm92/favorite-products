@@ -1,7 +1,7 @@
 import Customer from '../../../domain/customer';
 
-interface GetCustomersParams {
+interface GetCustomerParams {
     id: Customer['id']
 }
 
-export default GetCustomersParams;
+export default GetCustomerParams;
