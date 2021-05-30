@@ -100,6 +100,14 @@ describe('Mongodb User repository', () => {
                 const result = await sut.findById(nonExistentId);
                 expect(result).toBeNull();
             });
+
+        test('Should return null when the id provided is not valid',
+            async () => {
+                const invalidId = 'invalid';
+                const { sut } = makeSut();
+                const result = await sut.findById(invalidId);
+                expect(result).toBeNull();
+            });
     });
 
     describe('Delete method', () => {
@@ -122,6 +130,14 @@ describe('Mongodb User repository', () => {
                 const nonExistentId = makeObjectIdString();
                 const isSuccess = await sut.delete(nonExistentId);
                 expect(isSuccess).toBe(false);
+            });
+
+        test('Should return null when the id provided is not valid',
+            async () => {
+                const invalidId = 'invalid';
+                const { sut } = makeSut();
+                const result = await sut.delete(invalidId);
+                expect(result).toBeFalsy();
             });
     });
 });

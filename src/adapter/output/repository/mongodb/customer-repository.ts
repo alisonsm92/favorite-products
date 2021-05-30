@@ -1,4 +1,4 @@
-import { Collection, ObjectID } from 'mongodb';
+import { Collection, ObjectId, ObjectID } from 'mongodb';
 import Customer from '../../../../core/domain/customer';
 import CreateCustomerParams from '../../../../core/use-case/create-customer/port/create-customer-params';
 import CreateCustomerRepository from '../../../../core/use-case/create-customer/port/create-customer-repository';
@@ -30,6 +30,7 @@ CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository {
     }
 
     async findById(id: Customer['id']): Promise<Customer|null> {
+        if (!ObjectId.isValid(id)) return null;
         const result = await this.getCollection().findOne({ _id: new ObjectID(id) });
         if (!result) return result;
         return MongoCustomerRepository.map(result);
@@ -42,6 +43,7 @@ CreateCustomerRepository, FindCustomerRepository, DeleteCustomerRepository {
     }
 
     async delete(id: Customer['id']): Promise<boolean> {
+        if (!ObjectId.isValid(id)) return false;
         const result = await this.getCollection().deleteOne({ _id: new ObjectID(id) });
         return !!result.deletedCount;
     }
