@@ -4,32 +4,32 @@ API para gerenciar produtos favoritos de clientes.
 ## Organização do projeto
 Arquitetura do projeto foi baseada na [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). A nomenclatura utilizada teve como referência o repositório [helpdeveloper/java-modular-architecture](https://github.com/helpdeveloper/java-modular-architecture/tree/ede206d172eafa6c52b3d3a183b493aa173acfb4).
 
-## Camadas e diretórios
-### core
+Segue as camadas e diretórios em que o projeto está dividido:
+## core
 Camada onde são implementadas as regras de negócio.
 
-#### domain
+### domain
 Diretório que contêm as interfaces que representam as entidades utilizadas pelos casos de uso.
 
-#### use-case
+### use-case
 Diretório que contêm as classes que implementam o comportamento das funcionalidades exigidas.
 
-### adapter
+## adapter
 Camada que abstrai a comunicação com o mundo externo como banco de dados, interfaces de API, comunicação com serviços externos e etc.
 
-#### input
+### input
 Diretório que contêm os controllers que processam as solicitações HTTP de entrada e envia resposta de volta ao cliente.
 
-#### output
+### output
 Diretório que contêm os repositórios para acesso a dados da base de dados e serviços externos.
 
-### app
+## app
 Camada onde são implementadas as configurações para rodar o servidor HTTP utilizando o framework web escolhido.
 
-### common
+## common
 Diretório que possui as classes utilizadas em comum por mais de uma camada.
 
-### config
+## config
 Diretório com as configurações das variáveis de ambiente do projeto.
 
 ## Executando a aplicação
