@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import logger from '../../../app/express/logger/pino';
 import { Either, success, fail } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
 import ValidationError from '../../../core/error/validation-error';
@@ -44,7 +45,7 @@ const makeGetCustomerThrowError = () => makeGetCustomer();
 
 function makeSut(injectedGetCustomer?: GetCustomer): GetCustomerController {
     const getCustomer = injectedGetCustomer || makeGetCustomerSuccess(customer);
-    return new GetCustomerController(getCustomer);
+    return new GetCustomerController(getCustomer, logger);
 }
 
 describe('Testing GetCustomerController', () => {

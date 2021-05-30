@@ -8,6 +8,7 @@ import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
 import { JsonSchemaValidator } from '../port/json-schema-validator';
 import createCustomerSchema from '../schema/create-customer-schema';
+import Logger from '../port/logger';
 
 type Result = Either<ValidationError, Customer>
 
@@ -16,9 +17,16 @@ export default class CreateCustomerController implements Controller {
 
     private readonly jsonSchemaValidator: JsonSchemaValidator
 
-    constructor(createCustomer: CreateCustomer, jsonSchemaValidator: JsonSchemaValidator) {
+    private readonly logger: Logger;
+
+    constructor(
+        createCustomer: CreateCustomer,
+        jsonSchemaValidator: JsonSchemaValidator,
+        logger: Logger,
+    ) {
         this.createCustomer = createCustomer;
         this.jsonSchemaValidator = jsonSchemaValidator;
+        this.logger = logger;
     }
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -35,6 +43,7 @@ export default class CreateCustomerController implements Controller {
 
             return ok(result.value);
         } catch (error) {
+            this.logger.error({ error }, 'Failed to create customer');
             return serverError();
         }
     }

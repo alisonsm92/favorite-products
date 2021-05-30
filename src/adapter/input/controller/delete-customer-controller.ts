@@ -5,14 +5,18 @@ import NotFoundError from '../../../core/error/not-found-error';
 import { notFound, noContent, serverError } from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
+import Logger from '../port/logger';
 
 type Result = Either<NotFoundError, void>
 
 export default class DeleteCustomerController implements Controller {
     private readonly deleteCustomer: DeleteCustomer
 
-    constructor(deleteCustomer: DeleteCustomer) {
+    private readonly logger: Logger;
+
+    constructor(deleteCustomer: DeleteCustomer, logger: Logger) {
         this.deleteCustomer = deleteCustomer;
+        this.logger = logger;
     }
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -25,6 +29,7 @@ export default class DeleteCustomerController implements Controller {
 
             return noContent();
         } catch (error) {
+            this.logger.error({ error }, 'Failed to delete customer');
             return serverError();
         }
     }

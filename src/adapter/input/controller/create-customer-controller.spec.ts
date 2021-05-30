@@ -7,6 +7,7 @@ import CreateCustomer from '../../../core/use-case/create-customer/port/create-c
 import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import CreateCustomerController from './create-customer-controller';
+import logger from '../../../app/express/logger/pino';
 
 type Result = Either<ValidationError, Customer>
 
@@ -33,7 +34,7 @@ const makeCreateCustomerThrowError = () => makeCreateCustomer();
 
 function makeSut(createCustomer :CreateCustomer): CreateCustomerController {
     const jsonSchemaValidator = new JsonSchemaValidatorWrapper();
-    return new CreateCustomerController(createCustomer, jsonSchemaValidator);
+    return new CreateCustomerController(createCustomer, jsonSchemaValidator, logger);
 }
 
 describe('Testing CreateCustomerController', () => {

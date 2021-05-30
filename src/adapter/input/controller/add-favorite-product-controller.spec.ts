@@ -5,6 +5,7 @@ import AddFavoriteProductParams from '../../../core/use-case/add-favorite-produc
 import ValidationError from '../../../core/error/validation-error';
 import { HttpRequest } from '../port/http';
 import AddFavoriteProductController from './add-favorite-product-controller';
+import logger from '../../../app/express/logger/pino';
 
 type Result = Either<ValidationError, Product>
 
@@ -31,7 +32,7 @@ const makeAddFavoriteProductThrowError = () => makeAddFavoriteProduct();
 
 function makeSut(injectedAddFavoriteProduct?: AddFavoriteProduct): AddFavoriteProductController {
     const addFavoriteProduct = injectedAddFavoriteProduct || makeAddFavoriteProductSuccess();
-    return new AddFavoriteProductController(addFavoriteProduct);
+    return new AddFavoriteProductController(addFavoriteProduct, logger);
 }
 
 describe('Testing AddFavoriteProductController', () => {

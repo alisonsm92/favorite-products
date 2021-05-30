@@ -1,3 +1,4 @@
+import logger from '../../../app/express/logger/pino';
 import { Either, success, fail } from '../../../common/either';
 import Product from '../../../core/domain/product';
 import ValidationError from '../../../core/error/validation-error';
@@ -31,7 +32,7 @@ const makeGetFavoriteProductsThrowError = () => makeGetFavoriteProducts();
 
 function makeSut(injectedGetFavoriteProduct?: GetFavoriteProducts): GetFavoriteProductController {
     const getFavoriteProduct = injectedGetFavoriteProduct || makeGetFavoriteProductsSuccess();
-    return new GetFavoriteProductController(getFavoriteProduct);
+    return new GetFavoriteProductController(getFavoriteProduct, logger);
 }
 
 describe('Testing GetFavoriteProductController', () => {

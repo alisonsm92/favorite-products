@@ -4,6 +4,7 @@ import DeleteCustomer from '../../../core/use-case/delete-customer/port/delete-c
 import NotFoundError from '../../../core/error/not-found-error';
 import { HttpRequest } from '../port/http';
 import DeleteCustomerController from './delete-customer-controller';
+import logger from '../../../app/express/logger/pino';
 
 type Result = Either<NotFoundError, void>
 
@@ -22,7 +23,7 @@ const makeDeleteCustomerFailure = (error: Error) => makeDeleteCustomer(fail(erro
 const makeDeleteCustomerThrowError = () => makeDeleteCustomer();
 
 function makeSut(deleteCustomer :DeleteCustomer): DeleteCustomerController {
-    return new DeleteCustomerController(deleteCustomer);
+    return new DeleteCustomerController(deleteCustomer, logger);
 }
 
 describe('Testing DeleteCustomerController', () => {

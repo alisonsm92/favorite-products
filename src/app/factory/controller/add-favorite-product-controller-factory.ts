@@ -4,6 +4,7 @@ import MongoCustomerRepository from '../../../adapter/output/repository/mongodb/
 import MongoFavoriteProductsRepository from '../../../adapter/output/repository/mongodb/favorite-products-repository';
 import ApiProductRepository from '../../../adapter/output/repository/rest-api/product-repository';
 import AddFavoriteProductOnDb from '../../../core/use-case/add-favorite-product/add-favorite-product-on-db';
+import logger from '../../express/logger/pino';
 
 export default function makeAddFavoriteProductController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
@@ -14,5 +15,5 @@ export default function makeAddFavoriteProductController(): Controller {
         apiProductRepository,
         favoriteProductsRepository,
     );
-    return new AddFavoriteProductController(addFavoriteProduct);
+    return new AddFavoriteProductController(addFavoriteProduct, logger);
 }

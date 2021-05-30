@@ -3,12 +3,16 @@ import AddFavoriteProductParams from '../../../core/use-case/add-favorite-produc
 import { notFound, ok, serverError } from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
+import Logger from '../port/logger';
 
 export default class AddFavoriteProductController implements Controller {
     private readonly addFavoriteProduct: AddFavoriteProduct;
 
-    constructor(addFavoriteProduct: AddFavoriteProduct) {
+    private readonly logger: Logger;
+
+    constructor(addFavoriteProduct: AddFavoriteProduct, logger: Logger) {
         this.addFavoriteProduct = addFavoriteProduct;
+        this.logger = logger;
     }
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
@@ -20,6 +24,7 @@ export default class AddFavoriteProductController implements Controller {
             }
             return ok(result.value);
         } catch (error) {
+            this.logger.error({ error }, 'Failed to add favorite product');
             return serverError();
         }
     }

@@ -14,6 +14,10 @@ export default (app: Express): void => {
             res: ({ statusCode }) => ({
                 statusCode,
             }),
+            err: ({ type, message }) => ({
+                type,
+                message,
+            }),
         },
     }));
 };
