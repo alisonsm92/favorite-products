@@ -10,8 +10,8 @@ const fakeCustomer: Customer = { id: 'ID', ...inputData };
 
 function makeCreateCustomerRepository(opt = { exists: false }): CreateCustomerRepository {
     class CreateCustomerRepositoryStub implements CreateCustomerRepository {
-        async create(): Promise<Customer['id']> {
-            return Promise.resolve(fakeCustomer.id);
+        async create(): Promise<Customer> {
+            return Promise.resolve(fakeCustomer);
         }
 
         async exists(): Promise<boolean> {
@@ -23,16 +23,16 @@ function makeCreateCustomerRepository(opt = { exists: false }): CreateCustomerRe
 
 function makeSut(createCustomerRepository? :CreateCustomerRepository) {
     if (!createCustomerRepository) {
-        return new CreateCustomerOnDb({ createCustomerRepository: makeCreateCustomerRepository() });
+        return new CreateCustomerOnDb(makeCreateCustomerRepository());
     }
-    return new CreateCustomerOnDb({ createCustomerRepository });
+    return new CreateCustomerOnDb(createCustomerRepository);
 }
 
 describe('Testing create customer on db use case', () => {
     test('Should create a new customer with success', async () => {
         const sut = makeSut();
         const result = await sut.execute(inputData);
-        expect(result).toEqual(success(fakeCustomer.id));
+        expect(result).toEqual(success(fakeCustomer));
     });
 
     test('Should not create a user with email already exists', async () => {

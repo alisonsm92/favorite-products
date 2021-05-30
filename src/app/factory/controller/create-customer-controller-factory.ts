@@ -6,7 +6,7 @@ import JsonSchemaValidatorWrapper from '../../validator/json-schema-validator-wr
 
 export default function makeCreateCustomerController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
-    const createCustomerOnDb = new CreateCustomerOnDb({ createCustomerRepository: mongoCustomerRepository });
+    const createCustomerOnDb = new CreateCustomerOnDb(mongoCustomerRepository);
     const jsonSchemaValidator = new JsonSchemaValidatorWrapper();
-    return new CreateCustomerController({ createCustomer: createCustomerOnDb, jsonSchemaValidator });
+    return new CreateCustomerController(createCustomerOnDb, jsonSchemaValidator);
 }

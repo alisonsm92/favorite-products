@@ -6,13 +6,13 @@ import ApiProductRepository from '../../../adapter/output/repository/rest-api/pr
 import AddFavoriteProductOnDb from '../../../core/use-case/add-favorite-product/add-favorite-product-on-db';
 
 export default function makeAddFavoriteProductController(): Controller {
-    const favoriteProductsRepository = new MongoFavoriteProductsRepository();
     const mongoCustomerRepository = new MongoCustomerRepository();
+    const favoriteProductsRepository = new MongoFavoriteProductsRepository();
     const apiProductRepository = new ApiProductRepository();
-    const addFavoriteProduct = new AddFavoriteProductOnDb({
-        findCustomerRepository: mongoCustomerRepository,
-        findProductRepository: apiProductRepository,
-        addFavoriteProductRepository: favoriteProductsRepository,
-    });
-    return new AddFavoriteProductController({ addFavoriteProduct });
+    const addFavoriteProduct = new AddFavoriteProductOnDb(
+        mongoCustomerRepository,
+        apiProductRepository,
+        favoriteProductsRepository,
+    );
+    return new AddFavoriteProductController(addFavoriteProduct);
 }

@@ -55,11 +55,11 @@ function makeSut({
     findProductRepository = makeFindProductRepository(),
     addFavoriteProductRepository = makeAddFavoriteProductRepository(),
 }) {
-    return new AddFavoriteProductOnDb({
+    return new AddFavoriteProductOnDb(
         findCustomerRepository,
         findProductRepository,
         addFavoriteProductRepository,
-    });
+    );
 }
 
 describe('Testing AddFavoriteProductOnDb', () => {

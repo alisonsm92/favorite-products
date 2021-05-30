@@ -8,11 +8,6 @@ import AddFavoriteProduct from './port/add-favorite-product';
 import FindProductRepository from './port/find-product-repository';
 import AddFavoriteProductRepository from './port/add-favorite-product-repository';
 
-type Dependencies = {
-    findProductRepository: FindProductRepository,
-    findCustomerRepository: FindCustomerRepository,
-    addFavoriteProductRepository: AddFavoriteProductRepository
-}
 type Result = Promise<Either<ValidationError, Product>>
 
 export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
@@ -22,7 +17,11 @@ export default class AddFavoriteProductOnDb implements AddFavoriteProduct {
 
     private readonly addFavoriteProductRepository: AddFavoriteProductRepository;
 
-    constructor({ findCustomerRepository, findProductRepository, addFavoriteProductRepository }: Dependencies) {
+    constructor(
+        findCustomerRepository: FindCustomerRepository,
+        findProductRepository: FindProductRepository,
+        addFavoriteProductRepository: AddFavoriteProductRepository,
+    ) {
         this.findCustomerRepository = findCustomerRepository;
         this.findProductRepository = findProductRepository;
         this.addFavoriteProductRepository = addFavoriteProductRepository;

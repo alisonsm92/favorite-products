@@ -9,16 +9,16 @@ import { HttpRequest, HttpResponse } from '../port/http';
 type Result = Either<NotFoundError, void>
 
 export default class DeleteCustomerController implements Controller {
-    private readonly deleteCustomer
+    private readonly deleteCustomer: DeleteCustomer
 
-    constructor({ deleteCustomer }: { deleteCustomer: DeleteCustomer }) {
+    constructor(deleteCustomer: DeleteCustomer) {
         this.deleteCustomer = deleteCustomer;
     }
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
         try {
-            const params = request.params as DeleteCustomerParams;
-            const result: Result = await this.deleteCustomer.execute(params.id);
+            const { id } = request.params as DeleteCustomerParams;
+            const result: Result = await this.deleteCustomer.execute(id);
             if (result.isFailure()) {
                 return notFound(result.error);
             }

@@ -8,7 +8,7 @@ import CreateCustomer from './port/create-customer';
 export default class CreateCustomerOnDb implements CreateCustomer {
     private readonly createCustomerRepository: CreateCustomerRepository
 
-    constructor({ createCustomerRepository }: { createCustomerRepository: CreateCustomerRepository }) {
+    constructor(createCustomerRepository: CreateCustomerRepository) {
         this.createCustomerRepository = createCustomerRepository;
     }
 

@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 import { ObjectId } from 'mongodb';
-import { request } from 'express';
 import JsonSchemaValidatorWrapper from '../../../app/validator/json-schema-validator-wrapper';
 import { Either, fail, success } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
@@ -34,7 +33,7 @@ const makeCreateCustomerThrowError = () => makeCreateCustomer();
 
 function makeSut(createCustomer :CreateCustomer): CreateCustomerController {
     const jsonSchemaValidator = new JsonSchemaValidatorWrapper();
-    return new CreateCustomerController({ createCustomer, jsonSchemaValidator });
+    return new CreateCustomerController(createCustomer, jsonSchemaValidator);
 }
 
 describe('Testing CreateCustomerController', () => {

@@ -16,8 +16,7 @@ export default class CreateCustomerController implements Controller {
 
     private readonly jsonSchemaValidator: JsonSchemaValidator
 
-    constructor({ createCustomer, jsonSchemaValidator }
-        : { createCustomer: CreateCustomer, jsonSchemaValidator: JsonSchemaValidator }) {
+    constructor(createCustomer: CreateCustomer, jsonSchemaValidator: JsonSchemaValidator) {
         this.createCustomer = createCustomer;
         this.jsonSchemaValidator = jsonSchemaValidator;
     }

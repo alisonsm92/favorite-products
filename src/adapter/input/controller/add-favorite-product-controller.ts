@@ -4,12 +4,10 @@ import { notFound, ok, serverError } from '../helper/http-helper';
 import Controller from '../port/controller';
 import { HttpRequest, HttpResponse } from '../port/http';
 
-type Dependencies = { addFavoriteProduct: AddFavoriteProduct }
-
 export default class AddFavoriteProductController implements Controller {
     private readonly addFavoriteProduct: AddFavoriteProduct;
 
-    constructor({ addFavoriteProduct }: Dependencies) {
+    constructor(addFavoriteProduct: AddFavoriteProduct) {
         this.addFavoriteProduct = addFavoriteProduct;
     }
 

@@ -13,7 +13,7 @@ function makeDeleteCustomerRepository(opt = { exists: false }): DeleteCustomerRe
 }
 
 function makeSut(deleteCustomerRepository: DeleteCustomerRepository): DeleteCustomerOnDb {
-    return new DeleteCustomerOnDb({ deleteCustomerRepository });
+    return new DeleteCustomerOnDb(deleteCustomerRepository);
 }
 
 describe('Testing delete customer on db use case', () => {

@@ -31,7 +31,7 @@ const makeAddFavoriteProductThrowError = () => makeAddFavoriteProduct();
 
 function makeSut(injectedAddFavoriteProduct?: AddFavoriteProduct): AddFavoriteProductController {
     const addFavoriteProduct = injectedAddFavoriteProduct || makeAddFavoriteProductSuccess();
-    return new AddFavoriteProductController({ addFavoriteProduct });
+    return new AddFavoriteProductController(addFavoriteProduct);
 }
 
 describe('Testing AddFavoriteProductController', () => {

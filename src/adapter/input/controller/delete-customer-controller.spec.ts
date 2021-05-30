@@ -22,7 +22,7 @@ const makeDeleteCustomerFailure = (error: Error) => makeDeleteCustomer(fail(erro
 const makeDeleteCustomerThrowError = () => makeDeleteCustomer();
 
 function makeSut(deleteCustomer :DeleteCustomer): DeleteCustomerController {
-    return new DeleteCustomerController({ deleteCustomer });
+    return new DeleteCustomerController(deleteCustomer);
 }
 
 describe('Testing DeleteCustomerController', () => {

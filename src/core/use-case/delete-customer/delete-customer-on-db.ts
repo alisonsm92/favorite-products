@@ -7,7 +7,7 @@ import DeleteCustomerRepository from './port/delete-customer-repository';
 export default class DeleteCustomerOnDb implements DeleteCustomer {
     private readonly deleteCustomerRepository: DeleteCustomerRepository
 
-    constructor({ deleteCustomerRepository }: { deleteCustomerRepository: DeleteCustomerRepository }) {
+    constructor(deleteCustomerRepository: DeleteCustomerRepository) {
         this.deleteCustomerRepository = deleteCustomerRepository;
     }
 

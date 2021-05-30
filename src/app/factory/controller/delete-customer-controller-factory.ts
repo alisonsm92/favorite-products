@@ -5,6 +5,6 @@ import DeleteCustomerOnDb from '../../../core/use-case/delete-customer/delete-cu
 
 export default function makeDeleteCustomerController(): Controller {
     const mongoCustomerRepository = new MongoCustomerRepository();
-    const deleteCustomerOnDb = new DeleteCustomerOnDb({ deleteCustomerRepository: mongoCustomerRepository });
-    return new DeleteCustomerController({ deleteCustomer: deleteCustomerOnDb });
+    const deleteCustomerOnDb = new DeleteCustomerOnDb(mongoCustomerRepository);
+    return new DeleteCustomerController(deleteCustomerOnDb);
 }
