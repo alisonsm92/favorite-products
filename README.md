@@ -67,7 +67,7 @@ Neste modo de inicialização é necessário definir um valor para a variável d
 * **Obter lista de produtos favoritos do cliente**: acessível através do endpoint `GET /customer/<id>/favorite-product` informando o identificador do cliente.
 
 ## Comandos
-Os comandos a seguir podem ser executados em um ambiente com o [NodeJS](https://nodejs.org) instalado e após instalar as dependências (`npm i`).
+Os comandos a seguir podem ser executados em um ambiente com o [NodeJS](https://nodejs.org) instalado e após instalar as dependências do projeto (`npm i`).
 Comando   | Descrição
 --------- | ------
 `npm run start` | Inicializa aplicação
