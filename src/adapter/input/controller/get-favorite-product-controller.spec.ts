@@ -1,13 +1,13 @@
 import logger from '../../../app/express/logger/pino';
 import { Either, success, fail } from '../../../common/either';
 import Product from '../../../core/domain/product';
-import ValidationError from '../../../core/error/validation-error';
+import NotFoundError from '../../../core/error/not-found-error';
 import GetFavoriteProducts from '../../../core/use-case/get-favorite-products/port/get-favorite-products';
 import GetFavoriteProductParams from '../../../core/use-case/get-favorite-products/port/get-favorite-products.params';
 import { HttpRequest } from '../port/http';
 import GetFavoriteProductController from './get-favorite-product-controller';
 
-type Result = Either<ValidationError, Product[]>
+type Result = Either<NotFoundError, Product[]>
 
 const product: Product = {
     price: 100.0,
@@ -52,7 +52,7 @@ describe('Testing GetFavoriteProductController', () => {
         async () => {
             const params: GetFavoriteProductParams = { customerId: '1' };
             const httpRequest: HttpRequest = { params, body: null };
-            const error = new ValidationError('Error message');
+            const error = new NotFoundError('Product');
             const addFavoriteProduct = makeGetFavoriteProductsFailure(error);
             const sut = makeSut(addFavoriteProduct);
 

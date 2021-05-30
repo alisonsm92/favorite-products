@@ -1,9 +1,9 @@
 import { Either } from '../../../../common/either';
 import Customer from '../../../domain/customer';
-import ValidationError from '../../../error/validation-error';
+import NotFoundError from '../../../error/not-found-error';
 
 interface GetCustomer {
-    execute(id: Customer['id']): Promise<Either<ValidationError, Customer>>
+    execute(id: Customer['id']): Promise<Either<NotFoundError, Customer>>
 }
 
 export default GetCustomer;

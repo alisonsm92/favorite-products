@@ -2,13 +2,13 @@ import { ObjectId } from 'mongodb';
 import logger from '../../../app/express/logger/pino';
 import { Either, success, fail } from '../../../common/either';
 import Customer from '../../../core/domain/customer';
-import ValidationError from '../../../core/error/validation-error';
+import NotFoundError from '../../../core/error/not-found-error';
 import GetCustomer from '../../../core/use-case/get-customer/port/get-customer';
 import GetCustomerParams from '../../../core/use-case/get-customer/port/get-customers-params';
 import { HttpRequest } from '../port/http';
 import GetCustomerController from './get-customer-controller';
 
-type Result = Either<ValidationError, Customer>
+type Result = Either<NotFoundError, Customer>
 
 function makeObjectIdString() {
     const objectId = new ObjectId();
@@ -69,7 +69,7 @@ describe('Testing GetCustomerController', () => {
         async () => {
             const params: GetCustomerParams = { id: makeObjectIdString() };
             const httpRequest: HttpRequest = { params, body: null };
-            const error = new ValidationError('Error message');
+            const error = new NotFoundError('Error message');
             const getCustomer = makeGetCustomerFailure(error);
             const sut = makeSut(getCustomer);
 
