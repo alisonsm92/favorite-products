@@ -32,6 +32,9 @@ Diretório que possui as classes utilizadas em comum por mais de uma camada.
 ## config
 Diretório com as configurações das variáveis de ambiente do projeto.
 
+## doc
+Diretório com a especificação da documentação da API.
+
 ## Executando a aplicação
 * Tenha instalado [NodeJS](https://nodejs.org) ou [Docker](https://docs.docker.com) na sua máquina.
 * Crie um arquivo .env, seguindo o exemplo .env-example.
@@ -44,6 +47,7 @@ Diretório com as configurações das variáveis de ambiente do projeto.
     * `MONGO_TIMEOUT_MS` Especifica quanto tempo (em milissegundos) esperar pela conexão com o [mongoDB](https://www.mongodb.com) antes de lançar uma exceção
     * `AXIOS_TIMEOUT_MS` Especifica o tempo (em milissegundos) antes que a requisição a um serviço externo seja abortada
     * `COMPOSE_PROJECT_NAME` Especifica o nome do projeto para o docker compose
+    * `SWAGGER_UI_PORT` Especifica a porta onde será disponibilizada a documentação de API com o [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
 ### Inicializando a aplicação com Docker Compose
 ~~~shell
@@ -60,14 +64,18 @@ npm run start
 Neste modo de inicialização é necessário definir um valor para a variável de ambiente `MONGO_URL` no arquivo `.env` correspondente a uma conexão com uma base de dados [mongoDB](https://www.mongodb.com).
 
 ## Casos de uso
-* **Criar cliente**: acessível através do endpoint `POST /customer` informando os dados do cliente no corpo da requisição;
-* **Obter cliente**: acessível através do endpoint `GET /customer/<id>` informando o identificador do cliente;
-* **Deleter cliente**: acessível através do endpoint `DELETE /customer/<id>` informando o identificador do cliente;
-* **Adicionar produto a lista de produtos favoritos do cliente**: acessível através do endpoint `POST /customer/<customer-id>/favorite-product/<product-id>` informando o identificador do cliente e do produto;
-* **Obter lista de produtos favoritos do cliente**: acessível através do endpoint `GET /customer/<id>/favorite-product` informando o identificador do cliente.
+* **Criar cliente**: Cadastra um novo cliente informando os dados: `nome` e `email`;
+* **Obter cliente**: Retorna os dados de um cliente informando o seu identificador;
+* **Deletar cliente**: Remove o registro de um cliente informando o seu identificador;
+* **Adicionar um produto favorito**: Adiciona um produto na lista de produtos favoritos de um cliente informando o identificador do cliente e do produto;
+* **Obter lista de produtos favoritos**: Retorna a lista de produtos favoritos de um cliente informando o identificador do cliente.
+
+## Documentação da API
+A documentação da API segue a especificação [OpenAPI](https://spec.openapis.org/oas/v3.1.0) e está implementada no arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml) no diretório `src/doc` do projeto. Pode ser acessada por esse [link](http://localhost:3001/docs/) se você inicializou o projeto com o docker compose com as configurações padrões. Senão, configure a porta em que deseja que o [Swagger UI](https://swagger.io/tools/swagger-ui/) irá rodar através da variável de ambiente `SWAGGER_UI_PORT`. Também é possível copiar a especificação do arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml) e utilizar o [Swagger Editor](https://editor.swagger.io/) para visualizar.
 
 ## Comandos
 Os comandos a seguir podem ser executados em um ambiente com o [NodeJS](https://nodejs.org) instalado e após instalar as dependências do projeto (`npm i`).
+
 Comando   | Descrição
 --------- | ------
 `npm run start` | Inicializa aplicação
