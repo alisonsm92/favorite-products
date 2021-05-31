@@ -253,23 +253,32 @@ components:
       required:
       - "message"
       properties:
-        message:
-          type: "string"
-          example: "<resource> not found"
+        error:
+          type: "object"
+          properties:
+            message:
+              type: "string"
+              example: "<resource> not found"
     BadRequest:
       type: "object"
       required:
       - "message"
       properties:
-        message:
-          type: "string"
-          example: "Validation error"
+        error:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Validation error"
     InternalServerError:
       type: "object"
       required:
       - "message"
       properties:
-        message:
-          type: "string"
-          example: "Internal server error"
+        error:
+          type: "object"
+          properties:
+            message:
+              type: "string"
+              example: "Internal server error"
       
