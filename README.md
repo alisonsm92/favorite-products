@@ -37,7 +37,7 @@ Diretório com a especificação da documentação da API.
 
 ## Executando a aplicação
 * Tenha instalado [NodeJS](https://nodejs.org) ou [Docker](https://docs.docker.com) na sua máquina.
-* Crie um arquivo .env, seguindo o exemplo .env-example.
+* Crie um arquivo .env, seguindo o exemplo .env-example, com as seguintes variáveis de ambiente:
     * `PRODUCTS_API_URL` URL da API de produtos
     * `NODE_ENV` Ambiente em que será executada a aplicação `test|development|production`
     * `PORT` Número da porta em que deseja rodar o servidor HTTP
@@ -71,7 +71,7 @@ Neste modo de inicialização é necessário definir um valor para a variável d
 * **Obter lista de produtos favoritos**: Retorna a lista de produtos favoritos de um cliente informando o identificador do cliente.
 
 ## Documentação da API
-A documentação da API segue a especificação [OpenAPI](https://spec.openapis.org/oas/v3.1.0) e está implementada no arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml) no diretório `src/doc` do projeto. Pode ser acessada por esse [link](http://localhost:3001/docs/) se você inicializou o projeto com o docker compose com as configurações padrões. Senão, configure a porta em que deseja que o [Swagger UI](https://swagger.io/tools/swagger-ui/) irá rodar através da variável de ambiente `SWAGGER_UI_PORT`. Também é possível copiar a especificação do arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml) e utilizar o [Swagger Editor](https://editor.swagger.io/) para visualizar.
+A documentação da API segue a especificação [OpenAPI](https://spec.openapis.org/oas/v3.1.0) e está implementada no arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml). Pode ser acessada por esse [link](http://localhost:3001) se você inicializou o projeto com o docker compose com as configurações padrões. Senão, configure a porta em que deseja que o [Swagger UI](https://swagger.io/tools/swagger-ui/) irá rodar localmente através da variável de ambiente `SWAGGER_UI_PORT`. Também é possível copiar a especificação do arquivo [openapi.yml](https://github.com/alisonsm92/favorite-products/blob/main/src/doc/openapi.yml) e utilizar o [Swagger Editor](https://editor.swagger.io/) para visualizar.
 
 ## Comandos
 Os comandos a seguir podem ser executados em um ambiente com o [NodeJS](https://nodejs.org) instalado e após instalar as dependências do projeto (`npm i`).
