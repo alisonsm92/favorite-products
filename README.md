@@ -85,4 +85,4 @@ Comando   | Descrição
 `npm run test:integration` | Executa os testes de integração
 `npm run test:coverage` | Executa todos os testes do projeto e gera relatório de coberta de testes
 `npm run lint` | Executa validação de lint nos arquivos do projeto
-`npm run lint` | Executa validação de lint nos arquivos do projeto com correção automáica
+`npm run lint:fix` | Executa validação de lint nos arquivos do projeto com correção automáica
